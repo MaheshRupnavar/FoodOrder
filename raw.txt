@@ -1,3 +1,92 @@
+<TouchableOpacity onPress={()=>navigation.navigate('Burger')}>
+</TouchableOpacity>
+
+ <Image
+              style={{ top: -10 }}
+              source={require("../assets/Images/favouritesTab.png")}
+            />
+
+
+
+                style={({pressed})=>[
+                  {backgroundColor:pressed?'#FFD700':'#A9A9A9'},
+                  styles.Touchable
+                ]
+
+
+
+
+<TouchableOpacity
+                style={styles.Touchable}
+                onPress={null}>
+                <Text style={styles.txt}>S</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={styles.Touchable1}
+                onPress={null}>
+                <Text style={styles.txt}>M</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.Touchable}
+                onPress={null}>
+                <Text style={styles.txt}>L</Text>
+              </TouchableOpacity>
+
+
+
+
+  {state.categes.map((item, key) => (
+          <TouchableOpacity
+            style={{
+              width: 200,
+              height: 60,
+              alignItems: 'center',
+              justifyContent: 'center',
+              margin: 10,
+              backgroundColor: item.backgroundcolor,
+            }}
+            onPress={() =>changeBackground(item)}>
+            <Text style={{ color: '#FFFFFF' }}>
+              {' '}
+              {item.cat_name}
+            </Text>
+          </TouchableOpacity>
+        ))}
+
+
+
+categes= [
+      { cat_id: '1', cat_name: 'S', backgroundcolor: '#ED2525' },
+      { cat_id: '2', cat_name: 'M', backgroundcolor: '#ED2525' },
+      { cat_id: '3', cat_name: 'L', backgroundcolor: '#ED2525' },
+    ],
+    change=false,
+  );
+   
+  let categes = JSON.stringify(state.categes);
+  const changeBackground = item => {
+    
+
+    for (let x = 0; x < state.categes.length; x++) {
+      if (state.categes[x].cat_id == item.cat_id) {
+        categes[x].backgroundcolor = '#FFD700';
+
+        setState({
+          categes: categes,
+        });
+      } else {
+        categes[x].backgroundcolor = '#A9A9A9';
+
+        setState({
+          categes: categes,
+        });
+      }
+    }
+  };
+
+
+
 import React, {useState} from 'react';
 import {
   View,

@@ -1,9 +1,9 @@
 import React from 'react';
-import {View, Text, StyleSheet, Image} from 'react-native';
-import {ScrollView, TouchableOpacity} from 'react-native-gesture-handler';
+import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
+import {ScrollView} from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-export default function CartScreen() {
+export default function CartScreen({navigation}) {
   const MyCart = () => {
     return (
       <View style={styles.Mycart}>
@@ -12,10 +12,10 @@ export default function CartScreen() {
           style={styles.image}
         />
         <View style={{marginLeft: 40, flexDirection: 'column'}}>
-          <Text style={{fontWeight: 'bold', fontSize: 15}}>Size-M</Text>
-          <Text style={{fontWeight: 'bold', fontSize: 20}}>Margherita</Text>
-          <Text style={{fontSize: 15}}>Cheesy Piazza</Text>
-          <Text style={{fontWeight: 'bold', fontSize: 20}}>$12.50</Text>
+          <Text style={{fontWeight: 'bold', fontSize: 15,color:'black'}}>Size-M</Text>
+          <Text style={{fontWeight: 'bold', fontSize: 20,color:'black'}}>Margherita</Text>
+          <Text style={{fontSize: 15,color:'black'}}>Cheesy Piazza</Text>
+          <Text style={{fontWeight: 'bold', fontSize: 20,color:'black'}}>$12.50</Text>
         </View>
         <Icon name="close" size={30} style={{marginLeft: 50}} />
       </View>
@@ -24,7 +24,7 @@ export default function CartScreen() {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <TouchableOpacity>
+      <TouchableOpacity onPress={() => navigation.navigate('Home')}>
           <Image
             style={styles.img}
             source={require('../assets/Images/Left_Arrow.png')}
@@ -36,6 +36,7 @@ export default function CartScreen() {
             fontWeight: '800',
             marginLeft: 10,
             marginTop: 10,
+            color:'black'
           }}>
           My Cart
         </Text>
@@ -45,7 +46,7 @@ export default function CartScreen() {
           5 items {'                                       '} Total
         </Text>
         <Text
-          style={{left: 20, fontSize: 22, fontWeight: 'bold', marginTop: 3}}>
+          style={{left: 20, fontSize: 22, fontWeight: 'bold', marginTop: 3,color:'black'}}>
           Your Order{'                          '} $37.50
         </Text>
       </View>
@@ -92,7 +93,7 @@ export default function CartScreen() {
       
       <View style={{bottom:30,alignItems:'center'}}>
       <TouchableOpacity style={{backgroundColor:'#FFD700',width:300,height:50,alignItems:'center',justifyContent:'center',borderRadius:25}}>
-     <Text style={{color:'black',fontSize:30,fontWeight:'bold',}}>Place Order</Text>
+     <Text style={{color:'black',fontSize:25,fontWeight:'bold',}}>Place Order</Text>
      </TouchableOpacity>
      </View>
       

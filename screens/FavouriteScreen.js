@@ -1,18 +1,18 @@
 import React from 'react';
-import {View, Text, StyleSheet, Image} from 'react-native';
-import {TouchableOpacity} from 'react-native-gesture-handler';
+import {View, Text, StyleSheet, Image,TouchableOpacity} from 'react-native';
+
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import Card1 from '../Components/Card1';
-import Card2 from '../Components/Card2';
-import Card3 from '../Components/Card3';
+import FCard1 from '../Components/FCard1';
+import FCard2 from '../Components/FCard2';
 
-export default function FavouriteScreen() {
+export default function FavouriteScreen({navigation}) {
   return (
     <SafeAreaView style={{ backgroundColor: '#DCDCDC',padding:10}}>
     <View style={styles.container}>
       <View style={styles.header}>
-        <TouchableOpacity>
+      <TouchableOpacity onPress={() => navigation.navigate('Home')}>
           <Image
             style={styles.img}
             source={require('../assets/Images/Left_Arrow.png')}
@@ -24,6 +24,7 @@ export default function FavouriteScreen() {
             fontWeight: 'bold',
             marginLeft: 10,
             marginTop: 10,
+            color:'black'
           }}>
           My favourites
         </Text>
@@ -40,10 +41,10 @@ export default function FavouriteScreen() {
             marginRight: 10,
             borderRadius: 15,
           }}>
-          <Card3 />
+          <FCard1 />
         </View>
         <View style={{backgroundColor: '#ffff', borderRadius: 15}}>
-          <Card2 />
+          <FCard2 />
         </View>
        
       </View>
@@ -59,10 +60,10 @@ export default function FavouriteScreen() {
             marginRight: 10,
             borderRadius: 15,
           }}>
-          <Card2 />
+          <FCard2 />
         </View>
         <View style={{backgroundColor: '#ffff', borderRadius: 15}}>
-          <Card3 />
+          <FCard1 />
         </View>
        
       </View>

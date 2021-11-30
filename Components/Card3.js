@@ -1,17 +1,24 @@
 import React from 'react'
 import { View, Text,Image ,TouchableOpacity,StyleSheet} from 'react-native'
+import Icon from 'react-native-vector-icons/Fontisto';
 
-export default function Card3() {
+export default function Card3({navigation}) {
     const pizza = "../assets/Images/PizzaD.png";
+    const [show, setShow] = React.useState(false);
+    
     return (
         <View style={styles.card2}>
         <View>
           <View style={{ right: -100 }}>
-            <Image
-              style={{ top: -5}}
-              source={require("../assets/Images/favouritesTab.png")}
-            />
+          <TouchableOpacity onPress={()=>setShow(!show)}>
+          <Icon
+          style={{top: -10}}
+          name={show===false?'heart-alt':'heart'}
+          size={24}
+          />
+          </TouchableOpacity>
           </View>
+          <TouchableOpacity onPress={()=>navigation.navigate('Details')}>
           <Image
             source={require(pizza)}
             style={{
@@ -21,13 +28,14 @@ export default function Card3() {
               height: 90,
             }}
           />
+          </TouchableOpacity>
           <Text
-            style={{ top: -5, fontWeight: "bold", fontSize: 18, left: -20 }}
+            style={{ top: -5, fontWeight: "bold", fontSize: 18, left: -20 ,color:'black'}}
           >
             Veggie Paradise
           </Text>
-          <Text style={{ top: -2 }}> Cheesy Pizza</Text>
-          <Text style={{ top: -1, fontWeight: "bold", fontSize: 18 }}>
+          <Text style={{ top: -2 ,color:'black'}}> Cheesy Pizza</Text>
+          <Text style={{ top: -1, fontWeight: "bold", fontSize: 18 ,color:'black'}}>
             {"   "}$12.70
           </Text>
           <View style={{ flexDirection: "row" }}>
@@ -40,9 +48,9 @@ export default function Card3() {
                 alignItems: "center",
               }}
             >
-              <Text style={{ fontWeight: "bold" }}> - </Text>
+              <Text style={{ fontWeight: "bold",color:'black'}}> - </Text>
             </TouchableOpacity>
-            <Text style={{ fontWeight: "bold", top: 8, left: 5 }}>02</Text>
+            <Text style={{ fontWeight: "bold", top: 8, left: 5 ,color:'black'}}>02</Text>
             <TouchableOpacity
               style={{
                 backgroundColor: "#FFD700",
@@ -52,7 +60,7 @@ export default function Card3() {
                 alignItems: "center",
               }}
             >
-              <Text style={{ fontWeight: "bold" }}> + </Text>
+              <Text style={{ fontWeight: "bold" ,color:'black'}}> + </Text>
             </TouchableOpacity>
           </View>
         </View>
