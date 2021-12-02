@@ -13,6 +13,35 @@ import {ScrollView} from 'react-native-gesture-handler';
 export default function DetailsScreen({navigation}) {
   const [submitted, setSubmitted] = useState(false);
   const [increment, decrement] = useState(1);
+  const [categoryIndex, setCategoryIndex] = useState(0);  
+  const categories = ['S','M','L'];
+
+  const setDecrement=()=>{
+    increment-1<0?null:decrement(increment-1);
+    increment-1===0?onPressHandler():null;
+  }
+  
+  const CategoryList = () => {
+    return (
+        <View style={styles.categoryContainer}>
+          {categories.map((item, index) => (
+            <TouchableOpacity
+              key={index}
+              activeOpacity={0.8}
+              onPress={() => setCategoryIndex(index)}>
+              <Text
+                style={[
+                  styles.categoryText,
+                  categoryIndex == index && styles.categoryTextSelected,
+                ]}>
+                {'   '}{item}{' '}
+              </Text>
+            </TouchableOpacity>
+          ))}
+        </View>
+      
+    );
+  };
 
   const onPressHandler = () => {
     setSubmitted(!submitted);
@@ -40,7 +69,7 @@ export default function DetailsScreen({navigation}) {
               flexDirection: 'row',
               alignItems: 'center',
               justifyContent: 'center',
-              marginBottom: 10,
+              marginBottom: 5,
             }}>
             <Image
               style={styles.img}
@@ -64,15 +93,7 @@ export default function DetailsScreen({navigation}) {
                 justifyContent: 'space-between',
                 flexDirection: 'row',
               }}>
-              <TouchableOpacity style={styles.Touchable}>
-                <Text style={styles.txt}>S</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.Touchable1}>
-                <Text style={styles.txt}>M</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.Touchable}>
-                <Text style={styles.txt}>L</Text>
-              </TouchableOpacity>
+              <CategoryList/>
             </View>
           </View>
 
@@ -85,7 +106,7 @@ export default function DetailsScreen({navigation}) {
             }}>
             <Text style={styles.txt}>Details</Text>
             <Text
-              style={{marginTop: 10, right: 10, fontSize: 15, color: 'black'}}>
+              style={{marginTop: 5, right: 10, fontSize: 15, color: 'black'}}>
               {' '}
               The origin of the word Pizza is uncertain. The food was invented
               in Naples about 200 years ago. It is the name for a special type
@@ -96,7 +117,7 @@ export default function DetailsScreen({navigation}) {
             </Text>
           </View>
         </ScrollView>
-        <View style={{bottom: -20, alignItems: 'center'}}>
+        <View style={{bottom: -10, alignItems: 'center'}}>
           <TouchableOpacity
             onPress={onPressHandler}
             style={{
@@ -118,7 +139,7 @@ export default function DetailsScreen({navigation}) {
                 }}>
                 <TouchableOpacity
                   style={styles.btnTouchable}
-                  onPress={() => decrement(increment - 1)}>
+                  onPress={() => setDecrement()}>
                   <Text style={styles.txt1}>-</Text>
                 </TouchableOpacity>
                 <Text
@@ -213,5 +234,27 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 25,
     color: 'black',
+  },
+  categoryContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  categoryText: {
+    fontSize: 16,
+    color: 'black',
+    backgroundColor: '#A9A9A9',
+    fontWeight: 'bold',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius:10,
+    marginLeft:5,
+    height: 25,
+    width: 35,
+  },
+  categoryTextSelected: {
+   backgroundColor:'#FFD700',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });

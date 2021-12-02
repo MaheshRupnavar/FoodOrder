@@ -91,7 +91,7 @@ export default function CartScreen({navigation}) {
       </ScrollView>
       <View> 
       
-      <View style={{bottom:30,alignItems:'center'}}>
+      <View style={{bottom:80,alignItems:'center'}}>
       <TouchableOpacity style={{backgroundColor:'#FFD700',width:300,height:50,alignItems:'center',justifyContent:'center',borderRadius:25}}>
      <Text style={{color:'black',fontSize:25,fontWeight:'bold',}}>Place Order</Text>
      </TouchableOpacity>

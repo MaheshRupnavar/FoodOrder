@@ -10,49 +10,43 @@ import {
 } from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
 
-
-
-
-
-
-
 export default function PizzaScreen({navigation}) {
   const [selected, setSelected] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [increment, decrement] = useState(1);
   const [state, setState] = useState();
-    
+  const [categoryIndex, setCategoryIndex] = useState(0);
+  const categories = ['S', 'M', 'L'];
 
-
-  const handlelick = () => {
-    setColor(getColour());
+  const CategoryList = () => {
+    return (
+      <View style={styles.categoryContainer}>
+        {categories.map((item, index) => (
+          <TouchableOpacity
+            key={index}
+            activeOpacity={0.8}
+            onPress={() => setCategoryIndex(index)}>
+            <Text
+              style={[
+                styles.categoryText,
+                categoryIndex == index && styles.categoryTextSelected,
+              ]}>
+              {'   '}
+              {item}{' '}
+            </Text>
+          </TouchableOpacity>
+        ))}
+      </View>
+    );
   };
-  
+
+  const setDecrement = () => {
+    increment - 1 < 0 ? null : decrement(increment - 1);
+    increment-1===0?onPressHandler():null;
+  };
 
   const onPressHandler = () => {
-    if (selected) {
-      setSelected({selectedBtn: 'Button1'});
-    }
-  };
-
-  const onPressHandler1 = () => {
     setSubmitted(!submitted);
-  };
-
-  const OnChangeColor = () => {
-    if (!color.pressed) {
-      setColor({
-        pressed: true,
-        backgroundColor: '#FFD700',
-        backgroundColor2: '#A9A9A9',
-      });
-    } else {
-      setColor({
-        pressed: false,
-        backgroundColor: '#A9A9A9',
-        backgroundColor2: '#FFD700',
-      });
-    }
   };
 
   return (
@@ -77,7 +71,7 @@ export default function PizzaScreen({navigation}) {
               flexDirection: 'row',
               alignItems: 'center',
               justifyContent: 'center',
-              marginBottom: 10,
+              marginBottom: 5,
             }}>
             <Image
               style={styles.img}
@@ -94,42 +88,27 @@ export default function PizzaScreen({navigation}) {
             {' '}
             Size
           </Text>
-          <View style={{flexDirection: 'row', left: 20, margin: 10}}>
+          <View style={{flexDirection: 'row', left: 15, margin: 5}}>
             <View
               style={{
                 alignItems: 'center',
                 justifyContent: 'space-between',
                 flexDirection: 'row',
               }}>
-            <TouchableOpacity
-                style={styles.Touchable}
-                onPress={null}>
-                <Text style={styles.txt}>S</Text>
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                style={styles.Touchable1}
-                onPress={null}>
-                <Text style={styles.txt}>M</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.Touchable}
-                onPress={null}>
-                <Text style={styles.txt}>L</Text>
-              </TouchableOpacity>
+              <CategoryList />
             </View>
           </View>
 
           <View
             style={{
               left: 20,
-              marginTop: 10,
+              marginTop: 5,
               flexDirection: 'column',
               justifyContent: 'center',
             }}>
             <Text style={styles.txt}>Details</Text>
             <Text
-              style={{marginTop: 10, right: 10, fontSize: 15, color: 'black'}}>
+              style={{marginTop: 5, right: 10, fontSize: 15, color: 'black'}}>
               {' '}
               The origin of the word Pizza is uncertain. The food was invented
               in Naples about 200 years ago. It is the name for a special type
@@ -140,10 +119,9 @@ export default function PizzaScreen({navigation}) {
             </Text>
           </View>
         </ScrollView>
-        <View style={{bottom: -20, alignItems: 'center'}}>
+        <View style={{bottom: -30, alignItems: 'center'}}>
           <TouchableOpacity
-            title="Add to Cart"
-            onPress={onPressHandler1}
+            onPress={onPressHandler}
             style={{
               backgroundColor: submitted ? '#DCDCDC' : '#FFD700',
               width: 300,
@@ -156,14 +134,14 @@ export default function PizzaScreen({navigation}) {
             {submitted ? (
               <View
                 style={{
-                  bottom: -10,
+                  bottom: 3,
                   alignItems: 'center',
                   flexDirection: 'row',
                   justifyContent: 'center',
                 }}>
                 <TouchableOpacity
                   style={styles.btnTouchable}
-                  onPress={() => decrement(increment - 1)}>
+                  onPress={() => setDecrement()}>
                   <Text style={styles.txt1}>-</Text>
                 </TouchableOpacity>
                 <Text
@@ -204,7 +182,6 @@ const styles = StyleSheet.create({
   },
   txt: {
     fontWeight: 'bold',
-    
     fontSize: 15,
     color: 'black',
   },
@@ -215,7 +192,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#A9A9A9',
     borderRadius: 10,
     justifyContent: 'center',
-   
   },
   Touchable1: {
     alignItems: 'center',
@@ -230,7 +206,7 @@ const styles = StyleSheet.create({
 
   header: {
     flexDirection: 'row',
-    marginBottom: 20,
+    marginBottom: 10,
   },
 
   btnTouchable: {
@@ -260,5 +236,27 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 25,
     color: 'black',
+  },
+  categoryContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  categoryText: {
+    fontSize: 16,
+    color: 'black',
+    backgroundColor: '#A9A9A9',
+    fontWeight: 'bold',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 10,
+    marginLeft: 5,
+    height: 25,
+    width: 35,
+  },
+  categoryTextSelected: {
+    backgroundColor: '#FFD700',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });

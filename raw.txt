@@ -35,6 +35,91 @@
 
 
 
+TouchableOpacity
+                style={styles.Touchable}
+                onPress={null}>
+                <Text style={styles.txt}>S</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={styles.Touchable1}
+                onPress={null}>
+                <Text style={styles.txt}>M</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.Touchable}
+                onPress={null}>
+                <Text style={styles.txt}>L</Text>
+              </TouchableOpacity>
+
+
+
+<Icon
+          style={{top: 30}}
+          name={show===false?'heart-alt':'heart'}
+          size={24}
+          />
+
+
+
+{increment==0? <>
+                <Text
+                  style={{
+                    color: 'black',
+                    fontSize: 25,
+                    fontWeight: 'bold',
+                    color: 'black',
+                  }}>
+                  Add to Cart
+                </Text>
+              </> :
+              <View
+                style={{
+                  bottom: -10,
+                  alignItems: 'center',
+                  flexDirection: 'row',
+                  justifyContent: 'center',
+                }}>
+                <TouchableOpacity
+                  style={styles.btnTouchable}
+                  onPress={() => setDecrement()}>
+                  <Text style={styles.txt1}>-</Text>
+                </TouchableOpacity>
+                <Text
+                  style={{fontSize: 25, fontWeight: 'bold', color: 'black'}}>
+                  {increment}
+                </Text>
+                <TouchableOpacity
+                  style={styles.btnTouchable1}
+                  onPress={() => decrement(increment + 1)}>
+                  <Text style={styles.txt1}>+</Text>
+                </TouchableOpacity>
+              </View>
+              }
+
+
+
+{increment==0?<View><TouchableOpacity
+            onPress={onPressHandler1}
+            style={{
+              backgroundColor: submitted ? '#DCDCDC' : '#FFD700',
+              width: 300,
+              height: 50,
+              alignItems: 'center',
+              justifyContent: 'center',
+              borderRadius: 25,
+            }}
+            disabled={submitted}> <Text
+                  style={{
+                    color: 'black',
+                    fontSize: 25,
+                    fontWeight: 'bold',
+                    color: 'black',
+                  }}>Add to Cart</Text>
+                </TouchableOpacity></View>:null}
+
+
+
 
   {state.categes.map((item, key) => (
           <TouchableOpacity

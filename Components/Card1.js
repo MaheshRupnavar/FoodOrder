@@ -13,42 +13,44 @@ const Card1=({navigation})=> {
       <View>
         <View style={{right: -120}}>
           <TouchableOpacity onPress={()=>setShow(!show)}>
-          <Icon
-          style={{top: 30}}
-          name={show===false?'heart-alt':'heart'}
-          size={24}
-          />
+          {
+            show===false
+            ?
+            <Image style={{top: 10,}} size={24} source={require('../assets/Images/favouritesTab.png')}/>
+            :
+             <Image style={{top: 10}} size={24} source={require('../assets/Images/favourites.png')}/>
+          }
           </TouchableOpacity>
         </View>
       
-      <View>
+      
         <TouchableOpacity onPress={()=>navigation.navigate('Burger')}>
 
         <Image
           source={require(burger)}
           style={{
-            justifyContent: 'center',
-            top: -5,
+            top: -10,
+            left: -15,
             width: 150,
-            height: 150,
+            height: 100,
           }}
         />
         </TouchableOpacity>
-        </View>
         
         <Text
           style={{
-            top: -30,
+            top: -10,
             fontWeight: 'bold',
             fontSize: 18,
+            left: 10,
             color: 'black',
           }}>
-          {'     '}HamBurger
+          HamBurger
         </Text>
-        <Text style={{top: -30, color: 'black'}}>{'        '}Double Patty</Text>
+        <Text style={{top: -7, left: 13,color: 'black'}}>Double Patty</Text>
         <Text
-          style={{top: -30, fontWeight: 'bold', fontSize: 18, color: 'black'}}>
-          {'          '}$12.70
+          style={{top: -1, left: 10,fontWeight: 'bold', fontSize: 18, color: 'black'}}>
+          {'   '}$12.70
         </Text>
        
       </View>

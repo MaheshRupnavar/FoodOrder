@@ -17,11 +17,13 @@ export default function Card2({navigation}) {
         <View>
           <View style={{ right: -100 }}>
           <TouchableOpacity onPress={()=>setShow(!show)}>
-          <Icon
-          style={{top: -10}}
-          name={show===false?'heart-alt':'heart'}
-          size={24}
-          />
+          {
+            show===false
+            ?
+            <Image style={{top: -10}} size={24} source={require('../assets/Images/favouritesTab.png')}/>
+            :
+             <Image style={{top: -10}} size={70} source={require('../assets/Images/favourites.png')}/>
+          }
           </TouchableOpacity>
            
           </View>

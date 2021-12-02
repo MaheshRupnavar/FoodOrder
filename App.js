@@ -13,17 +13,55 @@ const Stack = createNativeStackNavigator();
 
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import DetailsScreen from './screens/DetailsScreen';
-import DetailsScreen1 from './screens/DetailsScreen1';
+
 import BurgerScreen from './screens/BurgerScreen';
-import BurgerScreen1 from './screens/BurgerScreen1';
+
 import Card1 from './Components/Card1';
+import MenuScreen from './screens/MenuScreen';
 
 const Tab = createBottomTabNavigator();
 
 function HomeStack() {
   return (
+  
+      <Stack.Navigator
+        initialRouteName="Home"
+        screenOptions={{
+          headerShown: false,
+          header: null,
+        }}>
+        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="Search" component={SearchScreen} />
+        <Stack.Screen name="Details" component={DetailsScreen} />
+        
+        <Stack.Screen name="Burger" component={BurgerScreen} />
+        
+        <Stack.Screen name="Cart" component={CartScreen} />
+        <Stack.Screen name="Card1" component={Card1} />
+        <Stack.Screen name="Menu" component={MenuScreen} />
+
+      </Stack.Navigator>
+    
+  );
+}
+
+const App = () => {
+  return (
+    <NavigationContainer>
     <Tab.Navigator
-      screenOptions={{headerShown: false}}
+   
+      screenOptions={{
+        headerShown: false,
+        tabBarShowLabel:false,
+        tabBarStyle:{
+          position:'absolute',
+         bottom:10,
+         elevation:5,
+         borderRadius:50,
+         marginHorizontal:15,
+         height: 50,
+        }
+        }}
       barStyle={{
         showLabel: false,
         position: 'absolute',
@@ -31,14 +69,14 @@ function HomeStack() {
         bottom: 10,
         left: 15,
         right: 15,
-        elevation: 0,
+      
         backgroundColor: '#fff',
-        borderRadius: 20,
-        height: 70,
+        
+        
       }}>
       <Tab.Screen
         name="Home"
-        component={HomeScreen}
+        component={HomeStack}
         options={{
           tabBarIcon: () => (
             <Image source={require('./assets/Images/Home.png')} />
@@ -97,44 +135,10 @@ function HomeStack() {
         }}
       />
     </Tab.Navigator>
-  );
-}
-
-const App = () => {
-  return (
-    <NavigationContainer>
-      <Stack.Navigator
-        initialRouteName="Home"
-        screenOptions={{
-          headerShown: false,
-          header: null,
-        }}>
-        <Stack.Screen name="Home" component={HomeStack} />
-        <Stack.Screen name="Search" component={SearchScreen} />
-        <Stack.Screen name="Details" component={DetailsScreen} />
-        <Stack.Screen name="Details1" component={DetailsScreen1} />
-        <Stack.Screen name="Burger" component={BurgerScreen} />
-        <Stack.Screen name="Burger1" component={BurgerScreen1} />
-        <Stack.Screen name="Cart" component={CartScreen} />
-        <Stack.Screen name="Card1" component={Card1} />
-      </Stack.Navigator>
     </NavigationContainer>
   );
 };
-/*
-  return (
-    <NavigationContainer>
-      <Stack.Navigator
-        initialRouteName="Home"
-        screenOptions={{
-          headerShown: false,
-          header: null
-        }}>
-        <Stack.Screen name="Home" component={HomeScreen} /> 
-        <Stack.Screen name="Search" component={SearchScreen} />
-         </Stack.Navigator>
-    </NavigationContainer>
-  );*/
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -154,7 +158,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFD700',
     alignItems: 'center',
     justifyContent: 'center',
-    top: -5,
+    top: -10,
   },
   SearchContainer: {
     justifyContent: 'center',

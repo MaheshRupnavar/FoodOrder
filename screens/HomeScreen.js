@@ -7,6 +7,7 @@ import {
   Image,
   SafeAreaView,
   ScrollView,
+  FlatList,
 } from 'react-native';
 import BottomTab from '../Components/BottomTab';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -18,7 +19,7 @@ import {NavigationContainer} from '@react-navigation/native';
 const HomeScreen = ({navigation}) => {
   const [categoryIndex, setCategoryIndex] = useState(0);
 
-  const categories = ['All', 'Pizza', 'Burger', 'Roll', 'Beverages','Chezzy'];
+  const categories = ['All', 'Pizza', 'Burger', 'Roll', 'Beverages', 'Chezzy'];
 
   const Card = () => {
     const burger = '../assets/Images/burger_picture.png';
@@ -33,7 +34,10 @@ const HomeScreen = ({navigation}) => {
 
   const CategoryList = () => {
     return (
-      <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+      <ScrollView
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        style={{flex: 1}}>
         <View style={styles.categoryContainer}>
           {categories.map((item, index) => (
             <TouchableOpacity
@@ -45,7 +49,8 @@ const HomeScreen = ({navigation}) => {
                   styles.categoryText,
                   categoryIndex == index && styles.categoryTextSelected,
                 ]}>
-                {'    '}{item} {'    '}
+                {'    '}
+                {item} {'    '}
               </Text>
             </TouchableOpacity>
           ))}
@@ -55,7 +60,7 @@ const HomeScreen = ({navigation}) => {
   };
 
   return (
-    <SafeAreaView style={{padding: 7, flex: 1}}>
+    <SafeAreaView style={{paddingHorizontal: 10,paddingVertical:7, flex: 1,marginBottom:60}}>
       <View style={{backgroundColor: '#DCDCDC'}}>
         <View
           style={{
@@ -78,13 +83,18 @@ const HomeScreen = ({navigation}) => {
               style={{marginLeft: 20}}
               source={require('../assets/Images/down.png')}
             />
+            <TouchableOpacity onPress={()=> navigation.navigate('Menu')}>
             <Image
               style={{marginLeft: 60, top: -5}}
               source={require('../assets/Images/options_icon.png')}
             />
+            </TouchableOpacity>
           </View>
         </View>
-        <ScrollView showsVerticalScrollIndicator={false}>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          onScroll={false}
+          stickyHeaderIndices={[4]}>
           <Text
             style={{
               marginTop: 10,
@@ -151,7 +161,10 @@ const HomeScreen = ({navigation}) => {
               View all
             </Text>
           </View>
-          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            pagingEnabled={true}>
             <View
               style={{
                 flexDirection: 'row',
@@ -191,46 +204,73 @@ const HomeScreen = ({navigation}) => {
             </View>
           </ScrollView>
 
-          <CategoryList />
 
-          {/* last cards*/}
-          <View
-            style={{
-              flexDirection: 'row',
-              marginBottom: 10,
-            }}>
-            <View
-              style={{
-                backgroundColor: '#ffff',
-                marginRight: 10,
-                borderRadius: 15,
-              }}>
-              <Card2 navigation={navigation} />
-            </View>
-            <View style={{backgroundColor: '#ffff', borderRadius: 15}}>
-              <Card2 navigation={navigation} />
-            </View>
-          </View>
 
-          {/* last cards*/}
-          <View
-            style={{
-              flexDirection: 'row',
-            }}>
-            <View
-              style={{
-                backgroundColor: '#ffff',
-                marginRight: 10,
-                borderRadius: 15,
-                marginBottom: 70,
-              }}>
-              <Card2 navigation={navigation} />
-            </View>
-            <View style={{backgroundColor: '#ffff', borderRadius: 15}}>
-              <Card2 navigation={navigation} />
-            </View>
-          </View>
-        </ScrollView>
+         
+            <CategoryList />
+          
+              <ScrollView>
+                {/* last cards*/}
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    marginBottom: 10,
+                  }}>
+                  <View
+                    style={{
+                      backgroundColor: '#ffff',
+                      marginRight: 10,
+                      borderRadius: 15,
+                    }}>
+                    <Card2 navigation={navigation} />
+                  </View>
+                  <View style={{backgroundColor: '#ffff', borderRadius: 15}}>
+                    <Card2 navigation={navigation} />
+                  </View>
+                </View>
+                  
+                {/* last cards*/}
+         
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    marginBottom: 10,
+                  }}>
+                  <View
+                    style={{
+                      backgroundColor: '#ffff',
+                      marginRight: 10,
+                      borderRadius: 15,
+                    }}>
+                    <Card2 navigation={navigation} />
+                  </View>
+                  <View style={{backgroundColor: '#ffff', borderRadius: 15}}>
+                    <Card2 navigation={navigation} />
+                  </View>
+                </View>
+           
+         
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    marginBottom: 10,
+                  }}>
+                  <View
+                    style={{
+                      backgroundColor: '#ffff',
+                      marginRight: 10,
+                      borderRadius: 15,
+                      marginBottom: 30,
+                    }}>
+                    <Card2 navigation={navigation} />
+                  </View>
+                  <View style={{backgroundColor: '#ffff', borderRadius: 15}}>
+                    <Card2 navigation={navigation} />
+                  </View>
+                </View>
+                </ScrollView>
+            </ScrollView>
+         
       </View>
     </SafeAreaView>
   );
@@ -262,15 +302,15 @@ const styles = StyleSheet.create({
   },
   categoryContainer: {
     flexDirection: 'row',
-    marginTop: 20,
-    marginBottom: 20,
+    marginTop: 5,
+    marginBottom: 10,
     justifyContent: 'space-between',
     marginLeft: 10,
     alignItems: 'center',
   },
   categoryText: {
     fontSize: 16,
-    color: 'grey',
+    color: 'black',
     fontWeight: 'bold',
     justifyContent: 'center',
     alignItems: 'center',
