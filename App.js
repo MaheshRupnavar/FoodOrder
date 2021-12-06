@@ -8,7 +8,6 @@ import FavouriteScreen from './screens/FavouriteScreen';
 import NotificationScreen from './screens/NotificationScreen';
 import SearchScreen from './screens/SearchScreen';
 
-
 const Stack = createNativeStackNavigator();
 
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
@@ -18,123 +17,117 @@ import BurgerScreen from './screens/BurgerScreen';
 
 import Card1 from './Components/Card1';
 import MenuScreen from './screens/MenuScreen';
+import Map from './screens/Map';
 
 const Tab = createBottomTabNavigator();
 
-function HomeStack() {
+const HomeStack = () => {
   return (
-  
-      <Stack.Navigator
-        initialRouteName="Home"
-        screenOptions={{
-          headerShown: false,
-          header: null,
-        }}>
-        <Stack.Screen name="Home" component={HomeScreen} />
-        <Stack.Screen name="Search" component={SearchScreen} />
-        <Stack.Screen name="Details" component={DetailsScreen} />
-        
-        <Stack.Screen name="Burger" component={BurgerScreen} />
-        
-        <Stack.Screen name="Cart" component={CartScreen} />
-        <Stack.Screen name="Card1" component={Card1} />
-        <Stack.Screen name="Menu" component={MenuScreen} />
-
-      </Stack.Navigator>
-    
+    <Stack.Navigator
+      initialRouteName="Home"
+      screenOptions={{
+        headerShown: false,
+        header: null,
+      }}>
+      <Stack.Screen name="Home" component={HomeScreen} />
+      <Stack.Screen name="Search" component={SearchScreen} />
+      <Stack.Screen name="Details" component={DetailsScreen} />
+      <Stack.Screen name="Burger" component={BurgerScreen} />
+      <Stack.Screen name="Cart" component={CartScreen} />
+      <Stack.Screen name="Card1" component={Card1} />
+     
+      <Stack.Screen name="Menu" component={MenuScreen} />
+    </Stack.Navigator>
   );
-}
+};
 
 const App = () => {
   return (
     <NavigationContainer>
-    <Tab.Navigator
-   
-      screenOptions={{
-        headerShown: false,
-        tabBarShowLabel:false,
-        tabBarStyle:{
-          position:'absolute',
-         bottom:10,
-         elevation:5,
-         borderRadius:50,
-         marginHorizontal:15,
-         height: 50,
-        }
-        }}
-      barStyle={{
-        showLabel: false,
-        position: 'absolute',
-        marginTop: 10,
-        bottom: 10,
-        left: 15,
-        right: 15,
-      
-        backgroundColor: '#fff',
-        
-        
-      }}>
-      <Tab.Screen
-        name="Home"
-        component={HomeStack}
-        options={{
-          tabBarIcon: () => (
-            <Image source={require('./assets/Images/Home.png')} />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="My Favourites"
-        component={FavouriteScreen}
-        options={{
-          tabBarIcon: () => (
-            <Image source={require('./assets/Images/favouritesTab.png')} />
-          ),
-        }}
-      />
-
-      <Tab.Screen
-        name="Search"
-        component={SearchScreen}
-        options={{
-          tabBarStyle: {display: 'none'},
-          tabBarIcon: () => (
-            <View style={styles.SearchContainer}>
-              <TouchableOpacity style={styles.CirclShape}>
-                <Image
-                  source={require('./assets/Images/Search.png')}
-                  resizeMode="cover"
-                  style={{
-                    width: 20,
-                    height: 20,
-                    tintColor: '#fff',
-                  }}
-                />
-              </TouchableOpacity>
-            </View>
-          ),
-        }}
-      />
-
-      <Tab.Screen
-        name="Notification"
-        component={NotificationScreen}
-        options={{
-          tabBarIcon: () => (
-            <Image source={require('./assets/Images/Notification.png')} />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Cart"
-        component={CartScreen}
-        options={{
-          tabBarIcon: () => {
-            return <Image source={require('./assets/Images/Cart.png')} />;
+      <Tab.Navigator
+        screenOptions={{
+          headerShown: false,
+          tabBarShowLabel: false,
+          tabBarStyle: {
+            position: 'absolute',
+            bottom: 10,
+            elevation: 5,
+            borderRadius: 50,
+            marginHorizontal: 15,
+            height: 50,
           },
         }}
-      />
-    </Tab.Navigator>
+        barStyle={{
+          showLabel: false,
+          position: 'absolute',
+          marginTop: 10,
+          bottom: 10,
+          left: 15,
+          right: 15,
+
+          backgroundColor: '#fff',
+        }}>
+        <Tab.Screen
+          name="Homestack"
+          component={HomeStack}
+          options={{
+            tabBarIcon: () => (
+              <Image source={require('./assets/Images/Home.png')} />
+            ),
+          }}
+        />
+        <Tab.Screen
+          name="My Favourites"
+          component={FavouriteScreen}
+          options={{
+            tabBarIcon: () => (
+              <Image source={require('./assets/Images/favouritesTab.png')} />
+            ),
+          }}
+        />
+
+        <Tab.Screen
+          name="Search"
+          component={SearchScreen}
+          options={{
+            tabBarStyle: {display: 'none'},
+            tabBarIcon: () => (
+              <View style={styles.SearchContainer}>
+                <TouchableOpacity style={styles.CirclShape}>
+                  <Image
+                    source={require('./assets/Images/Search.png')}
+                    resizeMode="cover"
+                    style={{
+                      width: 20,
+                      height: 20,
+                      tintColor: '#fff',
+                    }}
+                  />
+                </TouchableOpacity>
+              </View>
+            ),
+          }}
+        />
+
+        <Tab.Screen
+          name="Notification"
+          component={NotificationScreen}
+          options={{
+            tabBarIcon: () => (
+              <Image source={require('./assets/Images/Notification.png')} />
+            ),
+          }}
+        />
+        <Tab.Screen
+          name="Cart"
+          component={CartScreen}
+          options={{
+            tabBarIcon: () => {
+              return <Image source={require('./assets/Images/Cart.png')} />;
+            },
+          }}
+        />
+      </Tab.Navigator>
     </NavigationContainer>
   );
 };

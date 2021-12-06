@@ -5,16 +5,13 @@ import {
   TouchableOpacity,
   StyleSheet,
   Image,
-  Pressable,
   SafeAreaView,
 } from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
 
 export default function PizzaScreen({navigation}) {
-  const [selected, setSelected] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [increment, decrement] = useState(1);
-  const [state, setState] = useState();
   const [categoryIndex, setCategoryIndex] = useState(0);
   const categories = ['S', 'M', 'L'];
 
@@ -42,7 +39,7 @@ export default function PizzaScreen({navigation}) {
 
   const setDecrement = () => {
     increment - 1 < 0 ? null : decrement(increment - 1);
-    increment-1===0?onPressHandler():null;
+    increment - 1 === 0 ? onPressHandler() : null;
   };
 
   const onPressHandler = () => {
@@ -66,49 +63,22 @@ export default function PizzaScreen({navigation}) {
               $12.50
             </Text>
           </View>
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'center',
-              marginBottom: 5,
-            }}>
+          <View style={styles.imgView}>
             <Image
               style={styles.img}
               source={require('../assets/Images/burger_picture.png')}
             />
           </View>
-          <Text
-            style={{
-              left: 20,
-              fontSize: 15,
-              fontWeight: 'bold',
-              color: 'black',
-            }}>
-            {' '}
-            Size
-          </Text>
+          <Text style={styles.txtSize}> Size</Text>
           <View style={{flexDirection: 'row', left: 15, margin: 5}}>
-            <View
-              style={{
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                flexDirection: 'row',
-              }}>
+            <View style={styles.catView}>
               <CategoryList />
             </View>
           </View>
 
-          <View
-            style={{
-              left: 20,
-              marginTop: 5,
-              flexDirection: 'column',
-              justifyContent: 'center',
-            }}>
+          <View style={styles.detailView}>
             <Text style={styles.txt}>Details</Text>
-            <Text
-              style={{marginTop: 5, right: 10, fontSize: 15, color: 'black'}}>
+            <Text style={styles.txtDetail}>
               {' '}
               The origin of the word Pizza is uncertain. The food was invented
               in Naples about 200 years ago. It is the name for a special type
@@ -122,32 +92,16 @@ export default function PizzaScreen({navigation}) {
         <View style={{bottom: -30, alignItems: 'center'}}>
           <TouchableOpacity
             onPress={onPressHandler}
-            style={{
-              backgroundColor: submitted ? '#DCDCDC' : '#FFD700',
-              width: 300,
-              height: 50,
-              alignItems: 'center',
-              justifyContent: 'center',
-              borderRadius: 25,
-            }}
+            style={styles.cartTouchable}
             disabled={submitted}>
             {submitted ? (
-              <View
-                style={{
-                  bottom: 3,
-                  alignItems: 'center',
-                  flexDirection: 'row',
-                  justifyContent: 'center',
-                }}>
+              <View style={styles.viewIncre}>
                 <TouchableOpacity
                   style={styles.btnTouchable}
                   onPress={() => setDecrement()}>
                   <Text style={styles.txt1}>-</Text>
                 </TouchableOpacity>
-                <Text
-                  style={{fontSize: 25, fontWeight: 'bold', color: 'black'}}>
-                  {increment}
-                </Text>
+                <Text style={styles.txtIn}>{increment}</Text>
                 <TouchableOpacity
                   style={styles.btnTouchable1}
                   onPress={() => decrement(increment + 1)}>
@@ -156,15 +110,7 @@ export default function PizzaScreen({navigation}) {
               </View>
             ) : (
               <>
-                <Text
-                  style={{
-                    color: 'black',
-                    fontSize: 25,
-                    fontWeight: 'bold',
-                    color: 'black',
-                  }}>
-                  Add to Cart
-                </Text>
+                <Text style={styles.txtCart}>Add to Cart</Text>
               </>
             )}
           </TouchableOpacity>
@@ -182,6 +128,29 @@ const styles = StyleSheet.create({
   },
   txt: {
     fontWeight: 'bold',
+    fontSize: 15,
+    color: 'black',
+  },
+  imgView: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 5,
+  },
+  txtSize: {
+    left: 20,
+    fontSize: 15,
+    fontWeight: 'bold',
+    color: 'black',
+  },
+  catView: {
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+  },
+  txtDetail: {
+    marginTop: 5,
+    right: 10,
     fontSize: 15,
     color: 'black',
   },
@@ -208,7 +177,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginBottom: 10,
   },
-
+  detailView: {
+    left: 20,
+    marginTop: 5,
+    flexDirection: 'column',
+    justifyContent: 'center',
+  },
   btnTouchable: {
     alignItems: 'center',
     height: 40,
@@ -227,6 +201,19 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginLeft: 15,
   },
+  txtIn: {
+    fontSize: 25,
+    fontWeight: 'bold',
+    color: 'black',
+  },
+  cartTouchable: {
+    backgroundColor: '#FFD700',
+    width: 300,
+    height: 50,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 25,
+  },
   txt: {
     fontWeight: 'bold',
     fontSize: 15,
@@ -236,6 +223,12 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 25,
     color: 'black',
+  },
+  viewIncre: {
+    bottom: 3,
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'center',
   },
   categoryContainer: {
     flexDirection: 'row',
@@ -258,5 +251,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFD700',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  txtCart: {
+    color: 'black',
+    fontSize: 25,
+    fontWeight: 'bold',
+    color: 'black',
   },
 });

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import {
   View,
   Text,
@@ -7,19 +7,38 @@ import {
   Image,
   SafeAreaView,
   ScrollView,
+  Animated,
   FlatList,
 } from 'react-native';
-import BottomTab from '../Components/BottomTab';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import axios from 'axios';
 import Card1 from '../Components/Card1';
 import Card2 from '../Components/Card2';
-import Card3 from '../Components/Card3';
-import {NavigationContainer} from '@react-navigation/native';
+import ApiContainer from '../Components/ApiContainer';
 
 const HomeScreen = ({navigation}) => {
-  const [categoryIndex, setCategoryIndex] = useState(0);
+  const [state, setState] = useState({axiosData: null});
 
+  const [categoryIndex, setCategoryIndex] = useState(0);
   const categories = ['All', 'Pizza', 'Burger', 'Roll', 'Beverages', 'Chezzy'];
+  const scrollY = useRef(new Animated.Value(0)).current;
+  const [feed, setFeed] = useState([]);
+
+  const [show, setShow] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const [increment, decrement] = useState(1);
+
+  let [product, setproduct] = useState([]);
+
+  const onPressHandler = () => {
+    setSubmitted(!submitted);
+  };
+
+  const translateY = scrollY.interpolate({
+    inputRange: [100, 400],
+    outputRange: [100, 400],
+    extrapolateLeft: 'clamp',
+  });
 
   const Card = () => {
     const burger = '../assets/Images/burger_picture.png';
@@ -28,6 +47,41 @@ const HomeScreen = ({navigation}) => {
         <View style={styles.shadow}>
           <Image source={require(burger)} style={{top: -20, left: 40}} />
         </View>
+      </View>
+    );
+  };
+
+  useEffect(() => {
+    fetch('http://103.13.113.58:9090/admin/menu/web/by-category?categoryId=1')
+      .then(re => re.json())
+      .then(re => {
+        setFeed(re.data);
+        console.log(re.data);
+      });
+  }, []);
+
+  let Image_Http_URL = {
+    uri: 'http://cheersfiles.rentpayapp.in/cheers/menu/Test 0.jpeg',
+  };
+  useEffect(() => {
+    axios
+      .get('http://103.13.113.58:9090/admin/menu-category', {})
+      .then(function (response) {
+        setState({
+          axiosData: response.data,
+        });
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }, []);
+
+  const renderItem = data => {
+    return (
+      <View style={styles.categoryContainer}>
+        <TouchableOpacity style={styles.list}>
+          <Text style={styles.lightText}>{data.item.name}</Text>
+        </TouchableOpacity>
       </View>
     );
   };
@@ -60,8 +114,9 @@ const HomeScreen = ({navigation}) => {
   };
 
   return (
-    <SafeAreaView style={{paddingHorizontal: 10,paddingVertical:7, flex: 1,marginBottom:60}}>
-      <View style={{backgroundColor: '#DCDCDC'}}>
+    <SafeAreaView style={styles.safeV}>
+      <Animated.View style={{backgroundColor: '#DCDCDC'}}>
+        {/*Header */}
         <View
           style={{
             height: 55,
@@ -74,53 +129,36 @@ const HomeScreen = ({navigation}) => {
               size={34}
               color="black"
             />
-            <Image
-              style={{marginLeft: 40}}
-              source={require('../assets/Images/location.png')}
-            />
+            <TouchableOpacity>
+              <Image
+                style={{marginLeft: 40}}
+                source={require('../assets/Images/location.png')}
+              />
+            </TouchableOpacity>
             <Text style={{color: '#000000', marginLeft: 20}}>CHAKAN PUNE</Text>
-            <Image
-              style={{marginLeft: 20}}
-              source={require('../assets/Images/down.png')}
-            />
-            <TouchableOpacity onPress={()=> navigation.navigate('Menu')}>
-            <Image
-              style={{marginLeft: 60, top: -5}}
-              source={require('../assets/Images/options_icon.png')}
-            />
+            <TouchableOpacity>
+              <Image
+                style={{marginLeft: 20}}
+                source={require('../assets/Images/down.png')}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate('Menu')}>
+              <Image
+                style={{marginLeft: 60, top: -5}}
+                source={require('../assets/Images/options_icon.png')}
+              />
             </TouchableOpacity>
           </View>
         </View>
-        <ScrollView
-          showsVerticalScrollIndicator={false}
-          onScroll={false}
-          stickyHeaderIndices={[4]}>
-          <Text
-            style={{
-              marginTop: 10,
-              marginBottom: 10,
-              fontFamily: 'GILROY-REGULAR',
-              fontSize: 18,
-              fontWeight: 'bold',
-              color: 'black',
-            }}>
-            Running Offers
-          </Text>
+
+        {/* Banner */}
+
+        <ScrollView showsVerticalScrollIndicator={false} nestedscrollenabled>
+          <Text style={styles.txtR}>Running Offers</Text>
           <View style={styles.Banners}>
             <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-              <View
-                style={{
-                  backgroundColor: '#FF4510',
-                  borderRadius: 15,
-                  marginRight: 10,
-                }}>
-                <Text
-                  style={{
-                    top: 20,
-                    fontWeight: 'bold',
-                    fontSize: 15,
-                    color: 'black',
-                  }}>
+              <View style={styles.bannerV}>
+                <Text style={styles.txtBanner}>
                   {'       '}50% off{'\n'} {'    '}the full price of{'\n'}
                   {'    '}burgers
                 </Text>
@@ -128,13 +166,7 @@ const HomeScreen = ({navigation}) => {
                 <Card></Card>
               </View>
               <View style={{backgroundColor: '#CD853F', borderRadius: 15}}>
-                <Text
-                  style={{
-                    top: 20,
-                    fontWeight: 'bold',
-                    fontSize: 15,
-                    color: 'black',
-                  }}>
+                <Text style={styles.txtB2}>
                   {'       '}50% off{'\n'} {'    '}the full price of{'\n'}
                   {'    '}burgers
                 </Text>
@@ -144,16 +176,10 @@ const HomeScreen = ({navigation}) => {
               </View>
             </ScrollView>
           </View>
+
+          {/* Card */}
           <View style={{flexDirection: 'row'}}>
-            <Text
-              style={{
-                marginTop: 10,
-                marginBottom: 10,
-                fontWeight: 'bold',
-                color: 'black',
-              }}>
-              Popular Now
-            </Text>
+            <Text style={styles.txtP}>Popular Now</Text>
             <Text style={{marginTop: 10, marginBottom: 10, color: 'black'}}>
               {'                         '}
               {'                         '}
@@ -169,117 +195,224 @@ const HomeScreen = ({navigation}) => {
               style={{
                 flexDirection: 'row',
               }}>
-              <View
-                style={{
-                  backgroundColor: '#ffff',
-                  marginRight: 10,
-                  borderRadius: 15,
-                }}>
+              <View style={styles.cardV}>
                 <Card1 navigation={navigation} />
               </View>
-              <View
-                style={{
-                  backgroundColor: '#ffff',
-                  borderRadius: 15,
-                  marginRight: 10,
-                }}>
+              <View style={styles.cardV}>
                 <Card1 navigation={navigation} />
               </View>
-              <View
-                style={{
-                  backgroundColor: '#ffff',
-                  borderRadius: 15,
-                  marginRight: 10,
-                }}>
+              <View style={styles.cardV}>
                 <Card1 navigation={navigation} />
               </View>
-              <View
-                style={{
-                  backgroundColor: '#ffff',
-                  borderRadius: 15,
-                  marginRight: 10,
-                }}>
+              <View style={styles.cardV}>
                 <Card1 navigation={navigation} />
               </View>
             </View>
           </ScrollView>
+          <ApiContainer />
 
-
-
-         
-            <CategoryList />
-          
-              <ScrollView>
-                {/* last cards*/}
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    marginBottom: 10,
-                  }}>
-                  <View
-                    style={{
-                      backgroundColor: '#ffff',
-                      marginRight: 10,
-                      borderRadius: 15,
-                    }}>
-                    <Card2 navigation={navigation} />
-                  </View>
-                  <View style={{backgroundColor: '#ffff', borderRadius: 15}}>
-                    <Card2 navigation={navigation} />
+          <FlatList
+            data={feed}
+            numColumns={2}
+            columnWrapperStyle={{justifyContent: 'space-between'}}
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={{
+              marginTop: 10,
+              paddingBottom: 50,
+            }}
+            keyExtractor={(item, index) => {
+              return item.id.toString();
+            }}
+            renderItem={({item, index}) => (
+              <SafeAreaView>
+                <View style={styles.card2}>
+                  <View style={styles.cardCategory}>
+                    <View style={{right: -100}}>
+                      <TouchableOpacity onPress={() => setShow(!show)}>
+                        {show === false ? (
+                          <Image
+                            style={{top: 10, left: 30}}
+                            size={24}
+                            source={require('../assets/Images/favouritesTab.png')}
+                          />
+                        ) : (
+                          <Image
+                            style={{top: 10, left: 30}}
+                            size={70}
+                            source={require('../assets/Images/favourites.png')}
+                          />
+                        )}
+                      </TouchableOpacity>
+                    </View>
+                    <TouchableOpacity
+                      onPress={() => navigation.navigate('Details')}
+                      style={{borderRadius: 10}}>
+                      <Image
+                        source={Image_Http_URL}
+                        style={{
+                          top: 15,
+                          left: 25,
+                          width: 100,
+                          height: 90,
+                          borderRadius: 15,
+                        }}
+                      />
+                    </TouchableOpacity>
+                    <Text
+                      style={{
+                        top: 20,
+                        fontWeight: 'bold',
+                        fontSize: 18,
+                        left: 30,
+                        color: 'black',
+                      }}>
+                      {'   '}
+                      {item.category.name}
+                    </Text>
+                    <Text style={{top: 15, color: 'black', left: 40}}>
+                      {' '}
+                      {item.description}
+                    </Text>
+                    <Text
+                      style={{
+                        top: 10,
+                        fontWeight: 'bold',
+                        fontSize: 18,
+                        color: 'black',
+                        left: 40,
+                      }}>
+                      {'   '}
+                      {item.price}
+                    </Text>
+                    <TouchableOpacity
+                      onPress={onPressHandler}
+                      style={{
+                        backgroundColor: submitted ? '#ffff' : '#FFD700',
+                        padding: 5,
+                        top: 10,
+                        borderRadius: 15,
+                        left: 0,
+                        alignItems: 'center',
+                      }}>
+                      {submitted ? (
+                        <View
+                          style={{
+                            top: 7,
+                            alignItems: 'center',
+                            flexDirection: 'row',
+                            justifyContent: 'center',
+                          }}>
+                          <TouchableOpacity
+                            style={styles.btnTouchable}
+                            onPress={() => decrement(increment - 1)}>
+                            <Text style={styles.txt1}>-</Text>
+                          </TouchableOpacity>
+                          <Text
+                            style={{
+                              fontSize: 15,
+                              fontWeight: 'bold',
+                              color: 'black',
+                            }}>
+                            {increment}
+                          </Text>
+                          <TouchableOpacity
+                            style={styles.btnTouchable1}
+                            onPress={() => decrement(increment + 1)}>
+                            <Text style={styles.txt1}>+</Text>
+                          </TouchableOpacity>
+                        </View>
+                      ) : (
+                        <>
+                          <Text
+                            style={{
+                              color: 'black',
+                              fontSize: 15,
+                              fontWeight: 'bold',
+                              color: 'black',
+                            }}>
+                            Add to Cart
+                          </Text>
+                        </>
+                      )}
+                    </TouchableOpacity>
                   </View>
                 </View>
-                  
-                {/* last cards*/}
-         
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    marginBottom: 10,
-                  }}>
-                  <View
-                    style={{
-                      backgroundColor: '#ffff',
-                      marginRight: 10,
-                      borderRadius: 15,
-                    }}>
-                    <Card2 navigation={navigation} />
-                  </View>
-                  <View style={{backgroundColor: '#ffff', borderRadius: 15}}>
-                    <Card2 navigation={navigation} />
-                  </View>
+              </SafeAreaView>
+            )}
+          />
+
+          {/* last cards  <CategoryList />   <ApiContainer/> 
+          <Animated.View>
+            <ScrollView>
+              <View style={styles.cardV2}>
+                <View style={styles.cardV}>
+                  <Card2 navigation={navigation} />
                 </View>
-           
-         
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    marginBottom: 10,
-                  }}>
-                  <View
-                    style={{
-                      backgroundColor: '#ffff',
-                      marginRight: 10,
-                      borderRadius: 15,
-                      marginBottom: 30,
-                    }}>
-                    <Card2 navigation={navigation} />
-                  </View>
-                  <View style={{backgroundColor: '#ffff', borderRadius: 15}}>
-                    <Card2 navigation={navigation} />
-                  </View>
+                <View style={{backgroundColor: '#ffff', borderRadius: 15}}>
+                  <Card2 navigation={navigation} />
                 </View>
-                </ScrollView>
+              </View>
+            */}
+          {/* last cards
+
+              <Animated.View style={styles.cardV2}>
+                <View style={styles.cardV}>
+                  <Card2 navigation={navigation} />
+                </View>
+                <View style={{backgroundColor: '#ffff', borderRadius: 15}}>
+                  <Card2 navigation={navigation} />
+                </View>
+              </Animated.View>
+                */}
+          {/* last cards
+              <View style={styles.cardV2}>
+                <View style={{...styles.cardV, marginBottom: 40}}>
+                  <Card2 navigation={navigation} />
+                </View>
+                <View style={{backgroundColor: '#ffff', borderRadius: 15}}>
+                  <Card2 navigation={navigation} />
+                </View>
+              </View>
             </ScrollView>
-         
-      </View>
+          </Animated.View>
+          */}
+        </ScrollView>
+      </Animated.View>
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
+  safeV: {
+    paddingHorizontal: 10,
+    paddingVertical: 7,
+    flex: 1,
+    marginBottom: 60,
+  },
+  bannerV: {
+    backgroundColor: '#FF4510',
+    borderRadius: 15,
+    marginRight: 10,
+  },
   header: {
     flexDirection: 'row',
     top: 10,
+  },
+  cardV2: {
+    flexDirection: 'row',
+    marginBottom: 10,
+  },
+  txtBanner: {
+    top: 20,
+    fontWeight: 'bold',
+    fontSize: 15,
+    color: 'black',
+  },
+  txtB2: {
+    top: 20,
+    fontWeight: 'bold',
+    fontSize: 15,
+    color: 'black',
   },
   card: {
     height: 40,
@@ -307,6 +440,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginLeft: 10,
     alignItems: 'center',
+    opacity: 2,
   },
   categoryText: {
     fontSize: 16,
@@ -324,13 +458,62 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   card2: {
-    flexDirection: 'column',
-    alignItems: 'flex-end',
-    justifyContent: 'space-evenly',
-    height: 250,
-    borderRadius: 15,
-    padding: 5,
+    padding: 7,
     width: 175,
+  },
+  txtR: {
+    marginTop: 10,
+    marginBottom: 10,
+    fontFamily: 'GILROY-REGULAR',
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: 'black',
+  },
+  txtP: {
+    marginTop: 10,
+    marginBottom: 10,
+    fontWeight: 'bold',
+    color: 'black',
+  },
+  cardV: {
+    backgroundColor: '#ffff',
+    marginRight: 10,
+    borderRadius: 15,
+  },
+  cardCategory: {
+    backgroundColor: '#ffff',
+
+    height: 230,
+    width: 170,
+    borderRadius: 15,
+  },
+  btnTouchable: {
+    alignItems: 'center',
+    height: 25,
+    width: 25,
+    backgroundColor: '#A9A9A9',
+    borderRadius: 5,
+    justifyContent: 'center',
+    marginRight: 15,
+  },
+  btnTouchable1: {
+    alignItems: 'center',
+    height: 25,
+    width: 25,
+    backgroundColor: '#FFD700',
+    borderRadius: 5,
+    justifyContent: 'center',
+    marginLeft: 15,
+  },
+  txt: {
+    fontWeight: 'bold',
+    fontSize: 15,
+    color: 'black',
+  },
+  txt1: {
+    fontWeight: 'bold',
+    fontSize: 15,
+    color: 'black',
   },
 });
 

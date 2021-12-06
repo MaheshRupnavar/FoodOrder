@@ -423,3 +423,77 @@ const styles = StyleSheet.create({
 });
 
 export default HomeScreen;
+
+
+
+import React, {useState, useEffect} from 'react';
+import ApiView from './ApiView';
+import axios from 'axios';
+
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  ScrollView,
+  FlatList,
+  StyleSheet,
+} from 'react-native';
+
+const ApiContainer = () => {
+  const [state, setState] = useState({data: []});
+
+  useEffect(() => {
+    axios
+      .get('http://103.13.113.58:9090/admin/menu-category', {})
+      .then(function (response) {
+        setState({
+          data: response.data.data,
+        });
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }, []);
+
+  const renderItem = data => {
+    return (
+      <View>
+      {data.map(item => (
+        <View>
+          <Text>{item.name}</Text>
+        </View>
+      ))}
+      </View>
+    );
+  };
+
+  {
+    const {axiosData} = state;
+    return <ApiView axiosData={axiosData} renderItem={renderItem} />;
+  }
+};
+
+const styles = StyleSheet.create({
+  parentContainer: {
+    flex: 1,
+    justifyContent: 'center',
+  },
+  container: {
+    backgroundColor: '#fff',
+  },
+  loader: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#fff',
+  },
+  list: {
+    paddingVertical: 4,
+    margin: 5,
+    backgroundColor: '#fff',
+  },
+  lightText: {
+    color: 'black',
+  },
+});
+
+export default ApiContainer;
