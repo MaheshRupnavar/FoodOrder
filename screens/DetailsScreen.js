@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -10,37 +10,55 @@ import {
 } from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
 
-export default function DetailsScreen({navigation}) {
+export default function DetailsScreen({navigation, route}) {
   const [submitted, setSubmitted] = useState(false);
   const [increment, decrement] = useState(1);
-  const [categoryIndex, setCategoryIndex] = useState(0);  
-  const categories = ['S','M','L'];
+  const [categoryIndex, setCategoryIndex] = useState(0);
+  const categories = ['S', 'M', 'L'];
+  const [feed, setFeed] = useState('');
 
-  const setDecrement=()=>{
-    increment-1<0?null:decrement(increment-1);
-    increment-1===0?onPressHandler():null;
-  }
-  
+  const setDecrement = () => {
+    increment - 1 < 0 ? null : decrement(increment - 1);
+    increment - 1 === 0 ? onPressHandler() : null;
+  };
+
   const CategoryList = () => {
     return (
-        <View style={styles.categoryContainer}>
-          {categories.map((item, index) => (
-            <TouchableOpacity
-              key={index}
-              activeOpacity={0.8}
-              onPress={() => setCategoryIndex(index)}>
-              <Text
-                style={[
-                  styles.categoryText,
-                  categoryIndex == index && styles.categoryTextSelected,
-                ]}>
-                {'   '}{item}{' '}
-              </Text>
-            </TouchableOpacity>
-          ))}
-        </View>
-      
+      <View style={styles.categoryContainer}>
+        {categories.map((item, index) => (
+          <TouchableOpacity
+            key={index}
+            activeOpacity={0.8}
+            onPress={() => setCategoryIndex(index)}>
+            <Text
+              style={[
+                styles.categoryText,
+                categoryIndex == index && styles.categoryTextSelected,
+              ]}>
+              {'   '}
+              {item}{' '}
+            </Text>
+          </TouchableOpacity>
+        ))}
+      </View>
     );
+  };
+
+  useEffect(() => {
+    fetch('http://103.13.113.58:9090/admin/menu/web/by-category?categoryId=1')
+      .then(re => re.json())
+      .then(re => {
+        const array = re.data;
+        for (const i of array) {
+          const name = i.name;
+          setFeed(name);
+          console.log(name);
+        }
+      });
+  }, []);
+
+  let Image_Http_URL = {
+    uri: 'http://cheersfiles.rentpayapp.in/cheers/menu/Test 0.jpeg',
   };
 
   const onPressHandler = () => {
@@ -57,35 +75,31 @@ export default function DetailsScreen({navigation}) {
         </View>
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={{flexDirection: 'column', left: 20}}>
-            <Text style={{fontSize: 35, fontWeight: 'bold', color: 'black'}}>
-              Margherita Pizza
-            </Text>
-            <Text style={{fontWeight: 'bold', fontSize: 20, color: 'black'}}>
-              $12.50
-            </Text>
+            <>
+              <Text style={{fontSize: 35, fontWeight: 'bold', color: 'black'}}>
+                {route.params.name}
+              </Text>
+              <View style={{flexDirection: 'row'}}>
+                <Text
+                  style={{
+                    fontWeight: 'bold',
+                    fontSize: 20,
+                    color: 'black',
+                    textDecorationLine: 'line-through',
+                  }}>
+                  ${route.params.price}
+                </Text>
+                <Text
+                  style={{fontWeight: 'bold', fontSize: 20, color: 'black'}}>
+                  {'  '}$18
+                </Text>
+              </View>
+            </>
           </View>
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'center',
-              marginBottom: 5,
-            }}>
-            <Image
-              style={styles.img}
-              source={require('../assets/Images/PizzaD.png')}
-            />
+          <View style={styles.imgView}>
+            <Image style={styles.img} source={{uri: route.params.image}} />
           </View>
-          <Text
-            style={{
-              left: 20,
-              fontSize: 15,
-              fontWeight: 'bold',
-              color: 'black',
-            }}>
-            {' '}
-            Size
-          </Text>
+          <Text style={styles.txtSize}> Size</Text>
           <View style={{flexDirection: 'row', left: 20, margin: 10}}>
             <View
               style={{
@@ -93,28 +107,13 @@ export default function DetailsScreen({navigation}) {
                 justifyContent: 'space-between',
                 flexDirection: 'row',
               }}>
-              <CategoryList/>
+              <CategoryList />
             </View>
           </View>
 
-          <View
-            style={{
-              left: 20,
-              marginTop: 10,
-              flexDirection: 'column',
-              justifyContent: 'center',
-            }}>
+          <View style={styles.detailsView}>
             <Text style={styles.txt}>Details</Text>
-            <Text
-              style={{marginTop: 5, right: 10, fontSize: 15, color: 'black'}}>
-              {' '}
-              The origin of the word Pizza is uncertain. The food was invented
-              in Naples about 200 years ago. It is the name for a special type
-              of flatbread, made with special doughhe origin of the word Pizza
-              is uncertain. The food was invented in Naples about 200 years ago.
-              It is the name for a special type of flatbread, made with special
-              dough
-            </Text>
+            <Text style={styles.txtDetails}> {route.params.description}</Text>
           </View>
         </ScrollView>
         <View style={{bottom: -10, alignItems: 'center'}}>
@@ -130,13 +129,7 @@ export default function DetailsScreen({navigation}) {
             }}
             disabled={submitted}>
             {submitted ? (
-              <View
-                style={{
-                  bottom: -10,
-                  alignItems: 'center',
-                  flexDirection: 'row',
-                  justifyContent: 'center',
-                }}>
+              <View style={styles.increView}>
                 <TouchableOpacity
                   style={styles.btnTouchable}
                   onPress={() => setDecrement()}>
@@ -154,15 +147,7 @@ export default function DetailsScreen({navigation}) {
               </View>
             ) : (
               <>
-                <Text
-                  style={{
-                    color: 'black',
-                    fontSize: 25,
-                    fontWeight: 'bold',
-                    color: 'black',
-                  }}>
-                  Add to Cart
-                </Text>
+                <Text style={styles.txtCart}>Add to Cart</Text>
               </>
             )}
           </TouchableOpacity>
@@ -175,8 +160,9 @@ export default function DetailsScreen({navigation}) {
 const styles = StyleSheet.create({
   container: {},
   img: {
-    width: 200,
-    height: 200,
+    width: 180,
+    height: 180,
+    borderRadius: 15,
   },
   txt: {
     fontWeight: 'bold',
@@ -247,14 +233,50 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius:10,
-    marginLeft:5,
+    borderRadius: 10,
+    marginLeft: 5,
     height: 25,
     width: 35,
   },
   categoryTextSelected: {
-   backgroundColor:'#FFD700',
+    backgroundColor: '#FFD700',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  txtCart: {
+    color: 'black',
+    fontSize: 25,
+    fontWeight: 'bold',
+    color: 'black',
+  },
+  increView: {
+    bottom: -10,
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
+  txtDetails: {
+    marginTop: 5,
+    right: 10,
+    fontSize: 15,
+    color: 'black',
+  },
+  detailsView: {
+    left: 20,
+    marginTop: 10,
+    flexDirection: 'column',
+    justifyContent: 'center',
+  },
+  txtSize: {
+    left: 20,
+    fontSize: 15,
+    fontWeight: 'bold',
+    color: 'black',
+  },
+  imgView: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 5,
   },
 });

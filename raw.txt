@@ -497,3 +497,39 @@ const styles = StyleSheet.create({
 });
 
 export default ApiContainer;
+
+
+
+The origin of the word Pizza is uncertain. The food was invented
+              in Naples about 200 years ago. It is the name for a special type
+              of flatbread, made with special doughhe origin of the word Pizza
+              is uncertain. The food was invented in Naples about 200 years ago.
+              It is the name for a special type of flatbread, made with special
+              dough
+
+
+<Switch value={item.id}
+                      onValueChange={(value)=>
+                      {
+                        onValueCahnged(item,value);
+                      }
+                      }
+                       />
+
+
+
+<TouchableOpacity onPress={() => setShow(!show)}>
+              {show === false ? (
+                <Image
+                  style={{top: 10, left: 30}}
+                  size={24}
+                  source={require('../assets/Images/favouritesTab.png')}
+                />
+              ) : (
+                <Image
+                  style={{top: 10, left: 30}}
+                  size={70}
+                  source={require('../assets/Images/favourites.png')}
+                />
+              )}
+            </TouchableOpacity>:
