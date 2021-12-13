@@ -35,7 +35,7 @@ const HomeStack = () => {
       <Stack.Screen name="Burger" component={BurgerScreen} />
       <Stack.Screen name="Cart" component={CartScreen} />
       <Stack.Screen name="Card1" component={Card1} />
-
+      
       <Stack.Screen name="Menu" component={MenuScreen} />
     </Stack.Navigator>
   );

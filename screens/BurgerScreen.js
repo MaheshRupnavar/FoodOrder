@@ -38,8 +38,7 @@ export default function PizzaScreen({navigation}) {
   };
 
   const setDecrement = () => {
-    increment - 1 < 0 ? null : decrement(increment - 1);
-    increment - 1 === 0 ? onPressHandler() : null;
+    increment < 2 ? onPressHandler() : decrement(increment - 1);
   };
 
   const onPressHandler = () => {

@@ -12,7 +12,7 @@ const Card1=({navigation})=> {
     <View style={styles.card1}>
       <View>
         <View style={{right: -120}}>
-          <TouchableOpacity onPress={()=>setShow(!show)}>
+          <TouchableOpacity style={{height: 20, width: 30}} onPress={()=>setShow(!show)}>
           {
             show===false
             ?

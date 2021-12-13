@@ -1,4 +1,4 @@
-import React, {useState, useRef, useEffect} from 'react';
+import React, {useState, useRef, useEffect, useCallback} from 'react';
 import {
   View,
   Text,
@@ -8,40 +8,23 @@ import {
   ScrollView,
   Animated,
   FlatList,
-  SmartView,
-  Switch,
+  SectionList,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import axios from 'axios';
+
 import Card1 from '../Components/Card1';
 import Card2 from '../Components/Card2';
 import styles from './HomeStyles';
 import ApiContainer from '../Components/ApiContainer';
+import ListItem from './ListItem';
+import fetchRecords from './services/category-service';
 
 const HomeScreen = ({navigation}) => {
-  const [state, setState] = useState({axiosData: null});
-
-  const [categoryIndex, setCategoryIndex] = useState(0);
-  const categories = ['All', 'Pizza', 'Burger', 'Roll', 'Beverages', 'Chezzy'];
-  const scrollY = useRef(new Animated.Value(0)).current;
   const [feed, setFeed] = useState([]);
-  const [selected, setSelected] = useState(true);
-
-  const [show, setShow] = useState(false);
+  const [favourites, setFavourites] = useState([]);
   const [submitted, setSubmitted] = useState(false);
-  const [increment, decrement] = useState(1);
-
-  const onPressHandler = () => {
-    setSubmitted(!submitted);
-  };
-
-  var changedData = 0;
-  const translateY = scrollY.interpolate({
-    inputRange: [100, 400],
-    outputRange: [100, 400],
-    extrapolateLeft: 'clamp',
-  });
-
+  const [category, setCategory] = useState([]);
   const Card = () => {
     const burger = '../assets/Images/burger_picture.png';
     return (
@@ -52,6 +35,10 @@ const HomeScreen = ({navigation}) => {
       </View>
     );
   };
+  useEffect(() => {
+    let resp = axios.get('http://103.13.113.58:9090/admin/menu-category');
+    setCategory({category: resp.data});
+  }, []);
 
   useEffect(() => {
     const url =
@@ -64,93 +51,22 @@ const HomeScreen = ({navigation}) => {
       });
   }, []);
 
-  let Image_Http_URL = {
-    uri: 'http://cheersfiles.rentpayapp.in/cheers/menu/Test 0.jpeg',
-  };
-  useEffect(() => {
-    axios
-      .get('http://103.13.113.58:9090/admin/menu-category', {})
-      .then(function (response) {
-        setState({
-          axiosData: response.data,
-        });
-      })
-      .catch(error => {
-        console.log(error);
+  const DATA = [{ITEM: category, data: [feed]}];
+
+  /* const url =
+      'http://103.13.113.58:9090/admin/menu/web/by-category?categoryId=1';
+    fetch(url)
+      .then(re => re.json())
+      .then(re => {
+        setFeed(re.data);
+        console.log(re.data);
       });
-  }, []);
+  }, []);*/
+  /*const data = useCallback(() => {
+    CatgoryService.getMenusByCatgoryId(1);
+    setFeed(data);
+  }, [1]);*/
 
-  const onValueCahnged = (item, value) => {
-    var items = feed;
-    var index = items.indexOf(item);
-    items[index].id = value;
-    setSelected({feed: items});
-    setSelectedeed({selected: !selected});
-  };
-  const CategoryList = () => {
-    return (
-      <ScrollView
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        style={{flex: 1}}>
-        <View style={styles.categoryContainer}>
-          {categories.map((item, index) => (
-            <TouchableOpacity
-              key={index}
-              activeOpacity={0.8}
-              onPress={() => setCategoryIndex(index)}>
-              <Text
-                style={[
-                  styles.categoryText,
-                  categoryIndex == index && styles.categoryTextSelected,
-                ]}>
-                {'    '}
-                {item} {'    '}
-              </Text>
-            </TouchableOpacity>
-          ))}
-        </View>
-      </ScrollView>
-    );
-  };
-
-  const AddCart = () => {
-    return (
-      <TouchableOpacity
-        onPress={onPressHandler}
-        style={{
-          backgroundColor: submitted ? '#ffff' : '#FFD700',
-          ...styles.touchableAdd,
-        }}>
-        {submitted ? (
-          <View style={styles.increViewContainer}>
-            <TouchableOpacity
-              style={styles.btnTouchable}
-              onPress={() => decrement(increment - 1)}>
-              <Text style={styles.txt1}>-</Text>
-            </TouchableOpacity>
-            <Text
-              style={{
-                fontSize: 15,
-                fontWeight: 'bold',
-                color: 'black',
-              }}>
-              {increment}
-            </Text>
-            <TouchableOpacity
-              style={styles.btnTouchable1}
-              onPress={() => decrement(increment + 1)}>
-              <Text style={styles.txt1}>+</Text>
-            </TouchableOpacity>
-          </View>
-        ) : (
-          <>
-            <Text style={styles.textAddCart}>Add to Cart</Text>
-          </>
-        )}
-      </TouchableOpacity>
-    );
-  };
   return (
     <SafeAreaView style={styles.safeV}>
       <Animated.View style={{backgroundColor: '#DCDCDC'}}>
@@ -249,116 +165,37 @@ const HomeScreen = ({navigation}) => {
           </ScrollView>
           <ApiContainer />
 
+          {/* <SectionList
+            sections={DATA}
+            keyExtractor={(item, index) => index.toString()}
+            renderItem={({item}) => (
+              <ListItem
+                key={item.id}
+                name={item.name}
+                description={item.description}
+                images={item.images}
+                price={item.price}
+              />
+            )}
+            renderSectionHeader={({section}) => (
+              <Text>{section.ITEM.name}</Text>
+            )}
+          />*/}
+
           <FlatList
             data={feed}
             numColumns={2}
-            columnWrapperStyle={{justifyContent: 'space-between'}}
-            showsVerticalScrollIndicator={false}
-            contentContainerStyle={{
-              marginTop: 10,
-              paddingBottom: 50,
-            }}
-            extraData={feed.selected}
-            keyExtractor={(item, index) => {
-              return item.id.toString();
-            }}
-            renderItem={({item, index}) => (
-              <SafeAreaView>
-                <View style={styles.card2}>
-                  <View style={styles.cardCategory}>
-                    <View style={{right: -100}}>
-                      <TouchableOpacity onPress={() => setShow(!show)}>
-                        {show === false ? (
-                          <Image
-                            style={{top: 10, left: 30}}
-                            size={24}
-                            source={require('../assets/Images/favouritesTab.png')}
-                          />
-                        ) : (
-                          <Image
-                            style={{top: 10, left: 30}}
-                            size={70}
-                            source={require('../assets/Images/favourites.png')}
-                          />
-                        )}
-                      </TouchableOpacity>
-                    </View>
-                    <TouchableOpacity
-                      onPress={() =>
-                        navigation.navigate('Details', {
-                          name: item.name,
-                          description: item.description,
-                          price: item.price,
-                          image: item.images,
-                        })
-                      }>
-                      <Image
-                        source={{uri: item.images[0]}}
-                        style={styles.cardImg}
-                      />
-                    </TouchableOpacity>
-                    <Text style={styles.cardTextName}>
-                      {'   '}
-                      {item.name}
-                    </Text>
-                    <Text style={{marginTop: 3, color: 'black', left: 40}}>
-                      {' '}
-                      {item.description}
-                    </Text>
-                    <View style={{flexDirection: 'row'}}>
-                      <Text
-                        style={{
-                          ...styles.cardTextPrice,
-                          textDecorationLine: 'line-through',
-                        }}>
-                        {' '}
-                        $ {item.price}
-                      </Text>
-                      <Text style={styles.cardTextPrice1}>$ 18</Text>
-                    </View>
-
-                    <AddCart />
-                  </View>
-                </View>
-              </SafeAreaView>
+            favourites={setFavourites}
+            renderItem={({item}) => (
+              <ListItem
+                key={item.id}
+                name={item.name}
+                description={item.description}
+                images={item.images}
+                price={item.price}
+              />
             )}
           />
-
-          {/* last cards  <CategoryList />   <ApiContainer/> 
-          <Animated.View>
-            <ScrollView>
-              <View style={styles.cardV2}>
-                <View style={styles.cardV}>
-                  <Card2 navigation={navigation} />
-                </View>
-                <View style={{backgroundColor: '#ffff', borderRadius: 15}}>
-                  <Card2 navigation={navigation} />
-                </View>
-              </View>
-            */}
-          {/* last cards
-
-              <Animated.View style={styles.cardV2}>
-                <View style={styles.cardV}>
-                  <Card2 navigation={navigation} />
-                </View>
-                <View style={{backgroundColor: '#ffff', borderRadius: 15}}>
-                  <Card2 navigation={navigation} />
-                </View>
-              </Animated.View>
-                */}
-          {/* last cards
-              <View style={styles.cardV2}>
-                <View style={{...styles.cardV, marginBottom: 40}}>
-                  <Card2 navigation={navigation} />
-                </View>
-                <View style={{backgroundColor: '#ffff', borderRadius: 15}}>
-                  <Card2 navigation={navigation} />
-                </View>
-              </View>
-            </ScrollView>
-          </Animated.View>
-          */}
         </ScrollView>
       </Animated.View>
     </SafeAreaView>

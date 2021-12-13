@@ -44,6 +44,10 @@
 		90F8911249904F5E8369E78E /* GILROY-MEDIUM.TTF in Resources */ = {isa = PBXBuildFile; fileRef = D7ACBDC0D14F4B1AA63E5A5D /* GILROY-MEDIUM.TTF */; };
 		A339E83628F2454DB33383E5 /* GILROY-REGULAR.TTF in Resources */ = {isa = PBXBuildFile; fileRef = 41AAB84AF414430998AB8614 /* GILROY-REGULAR.TTF */; };
 		B06D3DC5837A437FBB16C160 /* GILROY-SEMIBOLD.TTF in Resources */ = {isa = PBXBuildFile; fileRef = 93BADF32047840ECA27293F9 /* GILROY-SEMIBOLD.TTF */; };
+		96134F185E5D42BD9CE0D69C /* DancingScript-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A24F9EB033674DA88697517B /* DancingScript-Bold.ttf */; };
+		2D5A1A2DE0F84C818FBC93D6 /* DancingScript-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8FF06700523C4FEA98267FD0 /* DancingScript-Medium.ttf */; };
+		AB944039B51D4A43ACBC106F /* DancingScript-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F754B50A0D0E43638C9DD750 /* DancingScript-Regular.ttf */; };
+		2B69884905DD40118AF9CCAB /* DancingScript-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D828F005BCF5457B8BBF6A52 /* DancingScript-SemiBold.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -100,6 +104,10 @@
 		D7ACBDC0D14F4B1AA63E5A5D /* GILROY-MEDIUM.TTF */ = {isa = PBXFileReference; name = "GILROY-MEDIUM.TTF"; path = "../assets/fonts/GILROY-MEDIUM.TTF"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		41AAB84AF414430998AB8614 /* GILROY-REGULAR.TTF */ = {isa = PBXFileReference; name = "GILROY-REGULAR.TTF"; path = "../assets/fonts/GILROY-REGULAR.TTF"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		93BADF32047840ECA27293F9 /* GILROY-SEMIBOLD.TTF */ = {isa = PBXFileReference; name = "GILROY-SEMIBOLD.TTF"; path = "../assets/fonts/GILROY-SEMIBOLD.TTF"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		A24F9EB033674DA88697517B /* DancingScript-Bold.ttf */ = {isa = PBXFileReference; name = "DancingScript-Bold.ttf"; path = "../assets/fonts/DancingScript-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		8FF06700523C4FEA98267FD0 /* DancingScript-Medium.ttf */ = {isa = PBXFileReference; name = "DancingScript-Medium.ttf"; path = "../assets/fonts/DancingScript-Medium.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		F754B50A0D0E43638C9DD750 /* DancingScript-Regular.ttf */ = {isa = PBXFileReference; name = "DancingScript-Regular.ttf"; path = "../assets/fonts/DancingScript-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		D828F005BCF5457B8BBF6A52 /* DancingScript-SemiBold.ttf */ = {isa = PBXFileReference; name = "DancingScript-SemiBold.ttf"; path = "../assets/fonts/DancingScript-SemiBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -224,6 +232,10 @@
 				D7ACBDC0D14F4B1AA63E5A5D /* GILROY-MEDIUM.TTF */,
 				41AAB84AF414430998AB8614 /* GILROY-REGULAR.TTF */,
 				93BADF32047840ECA27293F9 /* GILROY-SEMIBOLD.TTF */,
+				A24F9EB033674DA88697517B /* DancingScript-Bold.ttf */,
+				8FF06700523C4FEA98267FD0 /* DancingScript-Medium.ttf */,
+				F754B50A0D0E43638C9DD750 /* DancingScript-Regular.ttf */,
+				D828F005BCF5457B8BBF6A52 /* DancingScript-SemiBold.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -351,6 +363,10 @@
 				90F8911249904F5E8369E78E /* GILROY-MEDIUM.TTF in Resources */,
 				A339E83628F2454DB33383E5 /* GILROY-REGULAR.TTF in Resources */,
 				B06D3DC5837A437FBB16C160 /* GILROY-SEMIBOLD.TTF in Resources */,
+				96134F185E5D42BD9CE0D69C /* DancingScript-Bold.ttf in Resources */,
+				2D5A1A2DE0F84C818FBC93D6 /* DancingScript-Medium.ttf in Resources */,
+				AB944039B51D4A43ACBC106F /* DancingScript-Regular.ttf in Resources */,
+				2B69884905DD40118AF9CCAB /* DancingScript-SemiBold.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -18,8 +18,11 @@ export default function DetailsScreen({navigation, route}) {
   const [feed, setFeed] = useState('');
 
   const setDecrement = () => {
-    increment - 1 < 0 ? null : decrement(increment - 1);
-    increment - 1 === 0 ? onPressHandler() : null;
+    increment < 2 ? onPressHandler() : decrement(increment - 1);
+  };
+
+  let Image_Http_URL = {
+    uri: 'http://cheersfiles.rentpayapp.in/cheers/menu/Test 0.jpeg',
   };
 
   const CategoryList = () => {
@@ -57,10 +60,6 @@ export default function DetailsScreen({navigation, route}) {
       });
   }, []);
 
-  let Image_Http_URL = {
-    uri: 'http://cheersfiles.rentpayapp.in/cheers/menu/Test 0.jpeg',
-  };
-
   const onPressHandler = () => {
     setSubmitted(!submitted);
   };
@@ -97,7 +96,7 @@ export default function DetailsScreen({navigation, route}) {
             </>
           </View>
           <View style={styles.imgView}>
-            <Image style={styles.img} source={{uri: route.params.image}} />
+            <Image style={styles.img} source={{uri: route.params.images[0]}} />
           </View>
           <Text style={styles.txtSize}> Size</Text>
           <View style={{flexDirection: 'row', left: 20, margin: 10}}>

@@ -77,6 +77,10 @@
 		<string>GILROY-MEDIUM.TTF</string>
 		<string>GILROY-REGULAR.TTF</string>
 		<string>GILROY-SEMIBOLD.TTF</string>
+		<string>DancingScript-Bold.ttf</string>
+		<string>DancingScript-Medium.ttf</string>
+		<string>DancingScript-Regular.ttf</string>
+		<string>DancingScript-SemiBold.ttf</string>
 	</array>
 </dict>
 </plist>
