@@ -9,8 +9,10 @@ import {
   Button,
 } from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
+import {COLORS} from '../Components/COLORS/COLORS';
 
 export default function DetailsScreen({navigation, route}) {
+  const {name, price, images, description, discountPrice} = route.params;
   const [submitted, setSubmitted] = useState(false);
   const [increment, decrement] = useState(1);
   const [categoryIndex, setCategoryIndex] = useState(0);
@@ -76,7 +78,7 @@ export default function DetailsScreen({navigation, route}) {
           <View style={{flexDirection: 'column', left: 20}}>
             <>
               <Text style={{fontSize: 35, fontWeight: 'bold', color: 'black'}}>
-                {route.params.name}
+                {name}
               </Text>
               <View style={{flexDirection: 'row'}}>
                 <Text
@@ -86,17 +88,17 @@ export default function DetailsScreen({navigation, route}) {
                     color: 'black',
                     textDecorationLine: 'line-through',
                   }}>
-                  ${route.params.price}
+                  ${price}
                 </Text>
                 <Text
                   style={{fontWeight: 'bold', fontSize: 20, color: 'black'}}>
-                  {'  '}$18
+                  {'  '}$ {discountPrice}
                 </Text>
               </View>
             </>
           </View>
           <View style={styles.imgView}>
-            <Image style={styles.img} source={{uri: route.params.images[0]}} />
+            <Image style={styles.img} source={{uri: images[0]}} />
           </View>
           <Text style={styles.txtSize}> Size</Text>
           <View style={{flexDirection: 'row', left: 20, margin: 10}}>
@@ -112,14 +114,14 @@ export default function DetailsScreen({navigation, route}) {
 
           <View style={styles.detailsView}>
             <Text style={styles.txt}>Details</Text>
-            <Text style={styles.txtDetails}> {route.params.description}</Text>
+            <Text style={styles.txtDetails}> {description}</Text>
           </View>
         </ScrollView>
         <View style={{bottom: -10, alignItems: 'center'}}>
           <TouchableOpacity
             onPress={onPressHandler}
             style={{
-              backgroundColor: submitted ? '#DCDCDC' : '#FFD700',
+              backgroundColor: submitted ? COLORS.grey : COLORS.gold,
               width: 300,
               height: 50,
               alignItems: 'center',

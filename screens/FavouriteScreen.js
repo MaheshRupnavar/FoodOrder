@@ -1,3 +1,4 @@
+import {useNavigation} from '@react-navigation/native';
 import React, {useState, useEffect} from 'react';
 import {
   View,
@@ -8,113 +9,33 @@ import {
   Image,
   FlatList,
 } from 'react-native';
+import {COLORS} from '../Components/COLORS/COLORS';
+import {ADD_TO_FAV, REMOVE_TO_FAV} from '../redux/cartItems';
+import {useSelector, useDispatch} from 'react-redux';
 
-import Card1 from '../Components/Card1';
-import FCard1 from '../Components/FCard1';
-import FCard2 from '../Components/FCard2';
-import ListItem from './ListItem';
+export default function FavouriteScreen({route}) {
+  const cartItems = useSelector(state => state);
+  const dispatch = useDispatch();
+  const removeItemFromCart = item =>
+    dispatch({type: REMOVE_TO_FAV, payload: item});
 
-export default function FavouriteScreen({navigation, favorites, route}) {
+  // {name, description, price, images} = route.params;
+  const navigation = useNavigation();
   const [feed, setFeed] = useState([]);
-  const [isFavourite, setIsFavourite] = useState(false);
-
+  const [isFavourite, setIsFavourite] = useState(true);
+  const [increment, decrement] = useState(1);
   const [submitted, setSubmitted] = useState(false);
 
-  const renderEmptyConatainer = () => {
-    return (
-      <View style={styles.emptyContainer}>
-        <Text> The List is Empty</Text>
-      </View>
-    );
+  const setDecrement = () => {
+    increment < 2 ? onPressHandler() : decrement(increment - 1);
   };
 
   const onPressHandler = () => {
     setSubmitted(!submitted);
   };
 
-  const renderRow = ({item}) => {
-    return (
-      <SafeAreaView>
-        <View style={styles.card2}>
-          <TouchableOpacity
-            style={{marginLeft: 100, height: 20, width: 30}}
-            onPress={item => {
-              addToFavourites(item);
-              setIsFavourite(!isFavourite);
-            }}>
-            {isFavourite === false ? (
-              <Image
-                style={{marginTop: 5, marginLeft: 30}}
-                size={24}
-                source={require('../assets/Images/favouritesTab.png')}
-              />
-            ) : (
-              <Image
-                style={{marginTop: 5, marginLeft: 30}}
-                size={70}
-                source={require('../assets/Images/favourites.png')}
-              />
-            )}
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate('Details')}>
-            <Image source={{uri: item.images[0]}} style={styles.cardImg} />
-          </TouchableOpacity>
-          <Text style={styles.cardTextName}>
-            {'   '}
-            {item.name}
-          </Text>
-          <Text style={{marginTop: 3, color: 'black', left: 40}}>
-            {' '}
-            {item.description}
-          </Text>
-          <View style={{flexDirection: 'row'}}>
-            <Text
-              style={{
-                ...styles.cardTextPrice,
-                textDecorationLine: 'line-through',
-              }}>
-              {' '}
-              $ {item.price}
-            </Text>
-            <Text style={styles.cardTextPrice1}>$ 18</Text>
-          </View>
-
-          <TouchableOpacity
-            onPress={onPressHandler}
-            style={{
-              backgroundColor: submitted ? '#ffff' : '#FFD700',
-              ...styles.touchableAdd,
-            }}>
-            {submitted ? (
-              <View style={styles.increViewContainer}>
-                <TouchableOpacity
-                  style={styles.btnTouchable}
-                  onPress={() => setDecrement()}>
-                  <Text style={styles.txt1}>-</Text>
-                </TouchableOpacity>
-                <Text
-                  style={{
-                    fontSize: 15,
-                    fontWeight: 'bold',
-                    color: 'black',
-                  }}>
-                  {increment}
-                </Text>
-                <TouchableOpacity
-                  style={styles.btnTouchable1}
-                  onPress={() => decrement(increment + 1)}>
-                  <Text style={styles.txt1}>+</Text>
-                </TouchableOpacity>
-              </View>
-            ) : (
-              <>
-                <Text style={styles.textAddCart}>Add to Cart</Text>
-              </>
-            )}
-          </TouchableOpacity>
-        </View>
-      </SafeAreaView>
-    );
+  let Image_Http_URL = {
+    uri: 'http://cheersfiles.rentpayapp.in/cheers/menu/Test 0.jpeg',
   };
 
   return (
@@ -139,59 +60,106 @@ export default function FavouriteScreen({navigation, favorites, route}) {
             My favourites
           </Text>
         </View>
+        {cartItems.length !== 0 ? (
+          <FlatList
+            data={cartItems}
+            numColumns={2}
+            keyExtractor={item => item.toString()}
+            renderItem={({item}) => (
+              <View style={styles.card2}>
+                <TouchableOpacity
+                  style={{marginLeft: 100, height: 20, width: 30}}
+                  onPress={item => {
+                    removeItemFromCart(item);
+                    setIsFavourite(!isFavourite);
+                  }}>
+                  {isFavourite === false ? (
+                    <Image
+                      style={{marginTop: 5, marginLeft: 30}}
+                      size={24}
+                      source={require('../assets/Images/favouritesTab.png')}
+                    />
+                  ) : (
+                    <Image
+                      style={{marginTop: 5, marginLeft: 30}}
+                      size={70}
+                      source={require('../assets/Images/favourites.png')}
+                    />
+                  )}
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() =>
+                    navigation.navigate('Details', {
+                      name: item.name,
+                      description: item.description,
+                      price: item.price,
+                      images: item.images,
+                      discountPrice: item.discountPrice,
+                    })
+                  }>
+                  <Image source={Image_Http_URL} style={styles.cardImg} />
+                </TouchableOpacity>
+                <Text style={styles.cardTextName}>
+                  {'   '}
+                  {item.name}
+                </Text>
+                <Text style={{marginTop: 3, color: 'black', left: 40}}>
+                  {' '}
+                  {item.description}
+                </Text>
+                <View style={{flexDirection: 'row'}}>
+                  <Text
+                    style={{
+                      ...styles.cardTextPrice,
+                      textDecorationLine: 'line-through',
+                    }}>
+                    {' '}
+                    $ {item.price}
+                  </Text>
+                  <Text style={styles.cardTextPrice1}>$ 18</Text>
+                </View>
 
-        {/* <FlatList
-          data={route}
-          numColumns={2}
-          ListEmptyComponent={renderEmptyConatainer}
-          renderItem={({item}) => (
-            <ListItem
-              key={item.id}
-              name={item.name}
-              description={item.description}
-              images={item.images}
-              price={item.price}
-            />
-          )}
-        />*/}
-
-        {/* <View
-        style={{
-          flexDirection: 'row',
-          marginBottom: 10,
-        }}>
-        <View
-          style={{
-            backgroundColor: '#ffff',
-            marginRight: 10,
-            borderRadius: 15,
-          }}>
-          <FCard1 />
-        </View>
-        <View style={{backgroundColor: '#ffff', borderRadius: 15}}>
-          <FCard2 />
-        </View>
-       
-      </View>
-
-      <View
-        style={{
-          flexDirection: 'row',
-          marginBottom: 10,
-        }}>
-        <View
-          style={{
-            backgroundColor: '#ffff',
-            marginRight: 10,
-            borderRadius: 15,
-          }}>
-          <FCard2 />
-        </View>
-        <View style={{backgroundColor: '#ffff', borderRadius: 15}}>
-          <FCard1 />
-        </View>
-       
-      </View>*/}
+                <TouchableOpacity
+                  onPress={onPressHandler}
+                  style={{
+                    backgroundColor: submitted ? COLORS.white : '#FFD700',
+                    ...styles.touchableAdd,
+                  }}>
+                  {submitted ? (
+                    <View style={styles.increViewContainer}>
+                      <TouchableOpacity
+                        style={styles.btnTouchable}
+                        onPress={() => setDecrement()}>
+                        <Text style={styles.txt1}>-</Text>
+                      </TouchableOpacity>
+                      <Text
+                        style={{
+                          fontSize: 15,
+                          fontWeight: 'bold',
+                          color: 'black',
+                        }}>
+                        {increment}
+                      </Text>
+                      <TouchableOpacity
+                        style={styles.btnTouchable1}
+                        onPress={() => decrement(increment + 1)}>
+                        <Text style={styles.txt1}>+</Text>
+                      </TouchableOpacity>
+                    </View>
+                  ) : (
+                    <>
+                      <Text style={styles.textAddCart}>Add to Cart</Text>
+                    </>
+                  )}
+                </TouchableOpacity>
+              </View>
+            )}
+          />
+        ) : (
+          <View style={styles.emptyCartContainer}>
+            <Text style={styles.emptyCartMessage}>Your cart is empty :</Text>
+          </View>
+        )}
       </View>
     </SafeAreaView>
   );

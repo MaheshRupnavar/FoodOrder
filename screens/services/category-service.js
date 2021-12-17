@@ -1,6 +1,19 @@
 import axios from 'axios';
 
-const fetchRecords = () => {
+const getMenusByCatgoryId = data => {
+  const url =
+    'http://103.13.113.58:9090/admin/menu/web/by-category?categoryId=1';
+  fetch(url)
+    .then(re => re.json())
+    .then(re => {
+      return re.data;
+      //console.log(re.data);
+    });
+};
+
+export default getMenusByCatgoryId;
+
+/* const fetchRecords = () => {
   let one = 'http://103.13.113.58:9090/admin/menu/web/by-category?categoryId=1';
   let two = 'http://103.13.113.58:9090/admin/menu/web/by-category?categoryId=2';
 
@@ -19,7 +32,7 @@ const fetchRecords = () => {
   );
 };
 
-export default fetchRecords;
+export default fetchRecords; */
 
 /*export const CatgoryService = {
   getMenusByCatgoryId: () => {

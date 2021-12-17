@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import BottomTab from '../Components/BottonTab/BottomTab';
 
 const MenuScreen = ({navigation}) => {
   return (

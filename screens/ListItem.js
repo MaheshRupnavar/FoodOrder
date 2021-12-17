@@ -10,14 +10,22 @@ import {
   Image,
 } from 'react-native';
 import {List} from './List';
+import {ADD_TO_FAV, REMOVE_TO_FAV} from '../redux/cartItems';
+import {useSelector, useDispatch} from 'react-redux';
 
-const ListItem = ({id, name, images, description, price}) => {
+const ListItem = ({name, description, price, images, discountPrice}) => {
   const navigation = useNavigation();
   const [favorite, setFavorite] = useState([]);
   const [submitted, setSubmitted] = useState(false);
   const [increment, decrement] = useState(1);
   const [show, setShow] = useState(false);
   const [isFavourite, setIsFavourite] = useState(false);
+
+  const cartItems = useSelector(state => state);
+  const dispatch = useDispatch();
+  const addItemToCart = item => dispatch({type: ADD_TO_FAV, payload: item});
+  const removeItemFromCart = item =>
+    dispatch({type: REMOVE_TO_FAV, payload: item});
 
   const setDecrement = () => {
     increment < 2 ? onPressHandler() : decrement(increment - 1);
@@ -50,7 +58,7 @@ const ListItem = ({id, name, images, description, price}) => {
         <TouchableOpacity
           style={{marginLeft: 100, height: 20, width: 30}}
           onPress={item => {
-            addToFavourites(item.id);
+            addItemToCart(item);
             setIsFavourite(!isFavourite);
           }}>
           {isFavourite === false ? (
@@ -74,6 +82,7 @@ const ListItem = ({id, name, images, description, price}) => {
               description: description,
               price: price,
               images: images,
+              discountPrice: discountPrice,
             })
           }>
           <Image source={{uri: images[0]}} style={styles.cardImg} />
@@ -95,7 +104,7 @@ const ListItem = ({id, name, images, description, price}) => {
             {' '}
             $ {price}
           </Text>
-          <Text style={styles.cardTextPrice1}>$ 18</Text>
+          <Text style={styles.cardTextPrice1}>$ {discountPrice}</Text>
         </View>
 
         <TouchableOpacity
@@ -111,14 +120,7 @@ const ListItem = ({id, name, images, description, price}) => {
                 onPress={() => setDecrement()}>
                 <Text style={styles.txt1}>-</Text>
               </TouchableOpacity>
-              <Text
-                style={{
-                  fontSize: 15,
-                  fontWeight: 'bold',
-                  color: 'black',
-                }}>
-                {increment}
-              </Text>
+              <Text style={styles.txtIncrement}>{increment}</Text>
               <TouchableOpacity
                 style={styles.btnTouchable1}
                 onPress={() => decrement(increment + 1)}>
@@ -231,6 +233,11 @@ const styles = StyleSheet.create({
   txt1: {
     fontWeight: 'bold',
     fontSize: 15,
+    color: 'black',
+  },
+  txtIncrement: {
+    fontSize: 15,
+    fontWeight: 'bold',
     color: 'black',
   },
 });
