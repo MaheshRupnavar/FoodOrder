@@ -10,37 +10,40 @@ import {
 } from 'react-native';
 import ListItem from '../screens/ListItem';
 import {useSelector, useDispatch} from 'react-redux';
+import {getMenusByCatgoryId} from '../redux/actions';
 
 const ApiContainer = () => {
   const [data, setData] = useState([]);
-  const [feed, setFeed] = useState([]);
   const [categoryIndex, setCategoryIndex] = useState(0);
+
+  const {food} = useSelector(state => state.userReducer);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     getapiData();
-    getMenusByCatgoryId(1);
+    dispatch(getMenusByCatgoryId(1));
   }, []);
 
   const getapiData = async () => {
     let resp = await axios.get('http://103.13.113.58:9090/admin/menu-category');
     setData(resp.data.data);
-    console.log(resp.data.data);
+    //console.log(resp.data.data);
   };
 
-  const getMenusByCatgoryId = async categoryId => {
+  /* const getMenusByCatgoryId = async categoryId => {
     const url =
       'http://103.13.113.58:9090/admin/menu/web/by-category?categoryId=' +
       categoryId;
     let resp = await axios.get(url);
     setFeed(resp.data.data);
-    console.log(resp.data.data);
-    /* fetch(url)
+    //console.log(resp.data.data);
+   fetch(url)
       .then(re => re.json())
       .then(re => {
         this.setState({feed: re.data});
         //console.log(re.data);
-      }); */
-  };
+      }); 
+  };*/
 
   return (
     <>
@@ -50,7 +53,10 @@ const ApiContainer = () => {
             <TouchableOpacity
               key={index}
               activeOpacity={0.8}
-              onPress={() => setCategoryIndex(index)}>
+              onPress={() => {
+                setCategoryIndex(index);
+                dispatch(getMenusByCatgoryId(item.id));
+              }}>
               <Text
                 style={[
                   styles.categoryText,
@@ -66,7 +72,7 @@ const ApiContainer = () => {
       </ScrollView>
       <View>
         <FlatList
-          data={feed}
+          data={food}
           numColumns={2}
           keyExtractor={item => item.id.toString()}
           renderItem={({item}) => (

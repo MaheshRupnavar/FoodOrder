@@ -10,16 +10,9 @@ import {
   FlatList,
 } from 'react-native';
 import {COLORS} from '../Components/COLORS/COLORS';
-import {ADD_TO_FAV, REMOVE_TO_FAV} from '../redux/cartItems';
-import {useSelector, useDispatch} from 'react-redux';
 
 export default function FavouriteScreen({route}) {
-  const cartItems = useSelector(state => state);
-  const dispatch = useDispatch();
-  const removeItemFromCart = item =>
-    dispatch({type: REMOVE_TO_FAV, payload: item});
 
-  // {name, description, price, images} = route.params;
   const navigation = useNavigation();
   const [feed, setFeed] = useState([]);
   const [isFavourite, setIsFavourite] = useState(true);
@@ -62,9 +55,9 @@ export default function FavouriteScreen({route}) {
         </View>
         {cartItems.length !== 0 ? (
           <FlatList
-            data={cartItems}
+            data={null}
             numColumns={2}
-            keyExtractor={item => item.toString()}
+            keyExtractor={item => item.name.toString()}
             renderItem={({item}) => (
               <View style={styles.card2}>
                 <TouchableOpacity

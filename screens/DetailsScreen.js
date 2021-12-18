@@ -80,7 +80,7 @@ export default function DetailsScreen({navigation, route}) {
               <Text style={{fontSize: 35, fontWeight: 'bold', color: 'black'}}>
                 {name}
               </Text>
-              <View style={{flexDirection: 'row'}}>
+              <View style={{flexDirection: 'row', marginBottom: 10}}>
                 <Text
                   style={{
                     fontWeight: 'bold',

@@ -9,9 +9,9 @@ import {
   Animated,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import Card1 from '../Components/Card1';
 import styles from './HomeStyles';
 import ApiContainer from '../Components/ApiContainer';
+import PopularApi from '../Components/PopularApi';
 
 const HomeScreen = ({data, navigation}) => {
   const Card = () => {
@@ -24,50 +24,6 @@ const HomeScreen = ({data, navigation}) => {
       </View>
     );
   };
-  /*  useEffect(() => {
-    let resp = axios.get('http://103.13.113.58:9090/admin/menu-category');
-    setCategory({category: resp.data});
-  }, []); */
-
-  const getMenusByCatgoryId = categoryId => {
-    const url =
-      'http://103.13.113.58:9090/admin/menu/web/by-category?categoryId=' +
-      categoryId;
-    fetch(url)
-      .then(re => re.json())
-      .then(re => {
-        setFeed(re.data);
-        //console.log(re.data);
-      });
-  };
-
-  useEffect(() => {
-    getMenusByCatgoryId(1);
-    //setFeed(getMenusByCatgoryId());
-
-    /*  const url =
-      'http://103.13.113.58:9090/admin/menu/web/by-category?categoryId=1';
-    fetch(url)
-      .then(re => re.json())
-      .then(re => {
-        setFeed(re.data);
-        console.log(re.data);
-      }); */
-  }, []);
-
-  /* const url =
-      'http://103.13.113.58:9090/admin/menu/web/by-category?categoryId=1';
-    fetch(url)
-      .then(re => re.json())
-      .then(re => {
-        setFeed(re.data);
-        console.log(re.data);
-      });
-  }, []);*/
-  /*const data = useCallback(() => {
-    CatgoryService.getMenusByCatgoryId(1);
-    setFeed(data);
-  }, [1]);*/
 
   return (
     <SafeAreaView style={styles.safeV}>
@@ -143,61 +99,11 @@ const HomeScreen = ({data, navigation}) => {
               View all
             </Text>
           </View>
-          <ScrollView
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            pagingEnabled={true}>
-            <View
-              style={{
-                flexDirection: 'row',
-              }}>
-              <View style={styles.cardV}>
-                <Card1 navigation={navigation} />
-              </View>
-              <View style={styles.cardV}>
-                <Card1 navigation={navigation} />
-              </View>
-              <View style={styles.cardV}>
-                <Card1 navigation={navigation} />
-              </View>
-              <View style={styles.cardV}>
-                <Card1 navigation={navigation} />
-              </View>
-            </View>
-          </ScrollView>
+
+          <PopularApi />
 
           <ApiContainer />
-
-          {/* <SectionList
-            sections={feed}
-            keyExtractor={(item, index) => item + index}
-            renderItem={({item}) => (
-              <ListItem
-                name={item.name}
-                description={item.description}
-                images={item.images}
-                price={item.price}
-              />
-            )}
-            renderSectionHeader={({section: {title}}) => {
-              return <ApiContainer name={title} />;
-            }}
-          /> */}
-
-          {/* <FlatList
-            data={feed}
-            numColumns={2}
-            key={feed.id}
-            renderItem={({item}) => (
-              <ListItem
-                key={item.id}
-                name={item.name}
-                description={item.description}
-                images={item.images}
-                price={item.price}
-              />
-            )}
-          /> */}
+          
         </ScrollView>
       </Animated.View>
     </SafeAreaView>

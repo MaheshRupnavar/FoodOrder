@@ -2,10 +2,9 @@ import {StyleSheet} from 'react-native';
 
 export const styles = StyleSheet.create({
   safeV: {
-    paddingHorizontal: 10,
-    paddingVertical: 7,
+    padding: 5,
     flex: 1,
-    marginBottom: 60,
+    marginBottom: 80,
   },
   bannerV: {
     backgroundColor: '#FF4510',
@@ -37,7 +36,7 @@ export const styles = StyleSheet.create({
     color: 'black',
     marginLeft: 40,
   },
-  cardTextPrice1:{
+  cardTextPrice1: {
     fontWeight: 'bold',
     fontSize: 18,
     color: 'black',

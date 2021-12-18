@@ -1,8 +1,6 @@
 import * as React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {Provider} from 'react-redux';
-import store from './redux/Store';
 import Card1 from './Components/Card1';
 import BottomTab from './Components/BottonTab/BottomTab';
 import {
@@ -13,6 +11,8 @@ import {
   DetailsScreen,
 } from './screens/index';
 import SearchScreen from './screens/SearchScreen';
+import {Provider} from 'react-redux';
+import {Store} from './redux/store';
 
 const Stack = createNativeStackNavigator();
 
@@ -22,7 +22,7 @@ const HomeStack = () => {
 
 const App = () => {
   return (
-    <Provider store={store}>
+    <Provider store={Store}>
       <NavigationContainer>
         <Stack.Navigator
           initialRouteName="HomeStack"

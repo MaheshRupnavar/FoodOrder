@@ -9,47 +9,21 @@ import {
   TouchableOpacity,
   Image,
 } from 'react-native';
-import {List} from './List';
-import {ADD_TO_FAV, REMOVE_TO_FAV} from '../redux/cartItems';
-import {useSelector, useDispatch} from 'react-redux';
+import {Dimensions} from 'react-native';
+let deviceWidth = Dimensions.get('window').width / 2 - 10;
+let deviceHeight = Dimensions.get('window').height / 2 - 110;
 
 const ListItem = ({name, description, price, images, discountPrice}) => {
   const navigation = useNavigation();
-  const [favorite, setFavorite] = useState([]);
   const [submitted, setSubmitted] = useState(false);
   const [increment, decrement] = useState(1);
-  const [show, setShow] = useState(false);
   const [isFavourite, setIsFavourite] = useState(false);
-
-  const cartItems = useSelector(state => state);
-  const dispatch = useDispatch();
-  const addItemToCart = item => dispatch({type: ADD_TO_FAV, payload: item});
-  const removeItemFromCart = item =>
-    dispatch({type: REMOVE_TO_FAV, payload: item});
 
   const setDecrement = () => {
     increment < 2 ? onPressHandler() : decrement(increment - 1);
-    //increment === 0 ? onPressHandler() : null;
   };
   const onPressHandler = () => {
     setSubmitted(!submitted);
-  };
-  const addToFavourites = id => {
-    if (!favorite.includes(id)) setFavorite(favorite.concat(id));
-    console.log(id);
-  };
-
-  let findfavorite = favorite.filter(item => favorite.includes(item.id));
-
-  const removeFavorite = id => {
-    let index = favorite.indexOf(id);
-    console.log(index);
-    let temp = [...favorite.slice(0, index), ...favorite.slice(index + 1)];
-    setFavorite(temp);
-  };
-
-  let Image_Http_URL = {
-    uri: 'http://cheersfiles.rentpayapp.in/cheers/menu/Test 0.jpeg',
   };
 
   return (
@@ -58,18 +32,17 @@ const ListItem = ({name, description, price, images, discountPrice}) => {
         <TouchableOpacity
           style={{marginLeft: 100, height: 20, width: 30}}
           onPress={item => {
-            addItemToCart(item);
             setIsFavourite(!isFavourite);
           }}>
           {isFavourite === false ? (
             <Image
-              style={{marginTop: 5, marginLeft: 30}}
+              style={{marginTop: 5, marginLeft: 40}}
               size={24}
               source={require('../assets/Images/favouritesTab.png')}
             />
           ) : (
             <Image
-              style={{marginTop: 5, marginLeft: 30}}
+              style={{marginTop: 5, marginLeft: 40}}
               size={70}
               source={require('../assets/Images/favourites.png')}
             />
@@ -88,12 +61,16 @@ const ListItem = ({name, description, price, images, discountPrice}) => {
           <Image source={{uri: images[0]}} style={styles.cardImg} />
         </TouchableOpacity>
         <Text style={styles.cardTextName}>
-          {'   '}
-          {name}
+          {'  '}
+          {name.length < 15 ? `${name}` : `${name.substring(0, 11)}...`}
         </Text>
-        <Text style={{marginTop: 3, color: 'black', left: 40}}>
+        <Text
+          style={{marginTop: 3, color: 'black', left: 10}}
+          numberOfLines={1}>
           {' '}
-          {description}
+          {description.length < 15
+            ? `${description}`
+            : `${description.substring(0, 20)}...`}
         </Text>
         <View style={{flexDirection: 'row'}}>
           <Text
@@ -140,21 +117,18 @@ const ListItem = ({name, description, price, images, discountPrice}) => {
 
 const styles = StyleSheet.create({
   card2: {
-    padding: 7,
-    width: 175,
-    height: 250,
-    marginBottom: 20,
+    padding: 5,
+    width: deviceWidth,
+    height: deviceHeight,
+    marginBottom: 10,
     marginRight: 10,
-
     justifyContent: 'space-evenly',
-
     backgroundColor: '#ffff',
     borderRadius: 15,
   },
 
   cardV2: {
     flexDirection: 'row',
-    marginBottom: 10,
   },
   cardCategory: {
     height: 240,
@@ -162,16 +136,16 @@ const styles = StyleSheet.create({
   },
   cardImg: {
     marginTop: 10,
-    marginLeft: 25,
-    width: 100,
+    marginLeft: 35,
+    width: 90,
     height: 90,
     borderRadius: 15,
   },
   cardTextName: {
     marginTop: 5,
     fontWeight: 'bold',
-    fontSize: 18,
-    marginLeft: 30,
+    fontSize: 16,
+    marginLeft: 15,
     color: 'black',
   },
   cardTextPrice: {
@@ -179,7 +153,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 18,
     color: 'black',
-    marginLeft: 40,
+    marginLeft: 20,
   },
   cardTextPrice1: {
     fontWeight: 'bold',
