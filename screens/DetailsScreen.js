@@ -7,9 +7,9 @@ import {
   Image,
   SafeAreaView,
   Button,
+  ScrollView,
 } from 'react-native';
-import {ScrollView} from 'react-native-gesture-handler';
-import {COLORS} from '../Components/COLORS/COLORS';
+import {COLORS} from '../Components/Constants/COLORS';
 
 export default function DetailsScreen({navigation, route}) {
   const {name, price, images, description, discountPrice} = route.params;

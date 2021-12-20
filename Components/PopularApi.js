@@ -8,17 +8,22 @@ import {
   ScrollView,
   FlatList,
 } from 'react-native';
-import ListItem from '../screens/ListItem';
 import {useSelector, useDispatch} from 'react-redux';
-import {getMenusByCatgoryId} from '../redux/actions';
+import {getMenusByPopular} from '../redux/actions';
+import ListItemPopular from '../screens/ListItemPopular';
 
 const PopularApi = () => {
-  const {food} = useSelector(state => state.userReducer);
-  const dispatch = useDispatch();
+  const [food, setFood] = useState([]);
 
   useEffect(() => {
-    dispatch(getMenusByCatgoryId(1));
+    getMenusByPopular();
   }, []);
+
+  const getMenusByPopular = async () => {
+    const P_API = 'http://103.13.113.58:9090/admin/menu/web';
+    let resp = await axios.get(P_API);
+    setFood(resp.data.data);
+  };
 
   return (
     <>
@@ -28,7 +33,7 @@ const PopularApi = () => {
           horizontal
           keyExtractor={item => item.id.toString()}
           renderItem={({item}) => (
-            <ListItem
+            <ListItemPopular
               key={item.id}
               name={item.name}
               description={item.description}

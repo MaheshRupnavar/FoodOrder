@@ -7,6 +7,7 @@ import {
   SafeAreaView,
   ScrollView,
   Animated,
+  ActivityIndicator,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import styles from './HomeStyles';
@@ -14,6 +15,14 @@ import ApiContainer from '../Components/ApiContainer';
 import PopularApi from '../Components/PopularApi';
 
 const HomeScreen = ({data, navigation}) => {
+  const [loader, setLoader] = useState(true);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setLoader(!loader);
+    }, 1000);
+  }, []);
+
   const Card = () => {
     const burger = '../assets/Images/burger_picture.png';
     return (
@@ -101,9 +110,7 @@ const HomeScreen = ({data, navigation}) => {
           </View>
 
           <PopularApi />
-
           <ApiContainer />
-          
         </ScrollView>
       </Animated.View>
     </SafeAreaView>

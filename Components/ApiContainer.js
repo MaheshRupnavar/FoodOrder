@@ -7,10 +7,12 @@ import {
   StyleSheet,
   ScrollView,
   FlatList,
+  ActivityIndicator,
 } from 'react-native';
 import ListItem from '../screens/ListItem';
 import {useSelector, useDispatch} from 'react-redux';
 import {getMenusByCatgoryId} from '../redux/actions';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
 const ApiContainer = () => {
   const [data, setData] = useState([]);
@@ -18,6 +20,13 @@ const ApiContainer = () => {
 
   const {food} = useSelector(state => state.userReducer);
   const dispatch = useDispatch();
+  const [loader, setLoader] = useState(true);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setLoader(!loader);
+    }, 500);
+  }, []);
 
   useEffect(() => {
     getapiData();
@@ -70,11 +79,13 @@ const ApiContainer = () => {
           ))}
         </View>
       </ScrollView>
+
       <View>
         <FlatList
           data={food}
           numColumns={2}
-          keyExtractor={item => item.id.toString()}
+          nestedScrollEnabled
+          keyExtractor={(item, index) => index.toString()}
           renderItem={({item}) => (
             <ListItem
               key={item.id}
@@ -86,26 +97,7 @@ const ApiContainer = () => {
             />
           )}
         />
-
-        {/*  <FlatList
-            data={this.state.feed}
-            numColumns={2}
-            keyExtractor={(item, index) => index.toString()}
-            renderItem={({item}) => (
-              <ListItem
-                key={item.id}
-                name={item.name}
-                description={item.description}
-                images={item.images}
-                price={item.price}
-              />
-            )}
-          /> */}
       </View>
-      {/* {this.state.data[0].name} */}
-
-      {/* <Text>{this.state.data[1].name}</Text>
-        <Text>{this.state.data[2].name}</Text>*/}
     </>
   );
 };

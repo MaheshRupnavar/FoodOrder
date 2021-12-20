@@ -1,3 +1,4 @@
+//import liraries
 import React, {useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {
@@ -12,10 +13,8 @@ import {Dimensions} from 'react-native';
 let deviceWidth = Dimensions.get('window').width / 2 - 10;
 let deviceHeight = Dimensions.get('window').height / 2 - 110;
 
-const ListItem = ({name, description, price, images, discountPrice}) => {
-
+const ListItemPopular = ({name, description, price, images, discountPrice}) => {
   const navigation = useNavigation();
-  
   const [submitted, setSubmitted] = useState(false);
   const [increment, decrement] = useState(1);
   const [isFavourite, setIsFavourite] = useState(false);
@@ -217,4 +216,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ListItem;
+export default ListItemPopular;

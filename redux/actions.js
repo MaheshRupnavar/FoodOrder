@@ -1,8 +1,11 @@
 import axios from 'axios';
 export const CATEGORY_CARDS = 'CATEGORY_CARDS';
+export const POPULAR_CARDS = 'CATEGORY_CARDS';
 
 const API_URL =
   'http://103.13.113.58:9090/admin/menu/web/by-category?categoryId=';
+  
+const P_API = 'http://103.13.113.58:9090/admin/menu/web';
 
 export const getMenusByCatgoryId = CategoryId => {
   try {
@@ -14,6 +17,26 @@ export const getMenusByCatgoryId = CategoryId => {
           type: CATEGORY_CARDS,
           payload: json,
         });
+      } else {
+        console.log('Unable to fetch!');
+      }
+    };
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getMenusByPopular = () => {
+  try {
+    return async dispatch => {
+      const result = await axios.get(P_API);
+      const json = result.data.data;
+      if (json) {
+        dispatch({
+          type: POPULAR_CARDS,
+          payload: json,
+        });
+        console.log(json);
       } else {
         console.log('Unable to fetch!');
       }

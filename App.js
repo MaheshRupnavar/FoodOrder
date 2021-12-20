@@ -30,7 +30,7 @@ const App = () => {
             headerShown: false,
             header: null,
           }}>
-          <Stack.Screen name="Home" component={HomeStack} />
+          <Stack.Screen name="HomeStack" component={HomeStack} />
           <Stack.Screen name="Search" component={SearchScreen} />
           <Stack.Screen name="Details" component={DetailsScreen} />
           <Stack.Screen name="Burger" component={BurgerScreen} />
